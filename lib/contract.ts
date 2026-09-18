@@ -1,5 +1,5 @@
 export const TROTH_ESCROW_ADDRESS = (process.env.NEXT_PUBLIC_TROTH_ADDRESS ||
-  "0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab") as `0x${string}`;
+  "0xF7A20db6E51171263856f282ed188f795206d649") as `0x${string}`;
 
 export const USDC_ADDRESS = (process.env.NEXT_PUBLIC_USDC_ADDRESS ||
   "0x3600000000000000000000000000000000000000") as `0x${string}`;
@@ -96,6 +96,16 @@ export const TROTH_ESCROW_ABI = [
     type: "function",
     name: "contractorRefund",
     inputs: [{ name: "_agreementId", type: "uint256", internalType: "uint256" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "claimDeadlineRefund",
+    inputs: [
+      { name: "_agreementId", type: "uint256", internalType: "uint256" },
+      { name: "_milestoneIndex", type: "uint256", internalType: "uint256" },
+    ],
     outputs: [],
     stateMutability: "nonpayable",
   },

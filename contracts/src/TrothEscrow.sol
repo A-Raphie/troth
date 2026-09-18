@@ -89,6 +89,7 @@ contract TrothEscrow is ReentrancyGuard {
         address indexed contractor
     );
     event RevisionRequested(uint256 indexed agreementId, uint256 indexed milestoneIndex, string reason);
+    event MilestoneRefunded(uint256 indexed agreementId, uint256 indexed milestoneIndex, uint256 amount);
     event AgreementCancelled(uint256 indexed agreementId, uint256 refundAmount);
 
     struct MilestoneInput {
@@ -132,6 +133,7 @@ contract TrothEscrow is ReentrancyGuard {
         uint256 total = 0;
         for (uint256 i = 0; i < _milestoneInputs.length; i++) {
             require(_milestoneInputs[i].amount > 0, "Milestone amount must be > 0");
+            require(_milestoneInputs[i].deadline > block.timestamp, "Deadline must be in future");
             total += _milestoneInputs[i].amount;
         }
 
@@ -315,6 +317,30 @@ contract TrothEscrow is ReentrancyGuard {
         emit AgreementCancelled(_agreementId, unreleased);
 
         require(usdc.transfer(ag.payer, unreleased), "Contractor refund failed");
+    }
+
+    /**
+     * @notice Payer reclaims unsubmitted milestone funds if contractor missed the deadline.
+     *         Provides client-side anti-ghosting protection.
+     */
+    function claimDeadlineRefund(uint256 _agreementId, uint256 _milestoneIndex) external nonReentrant {
+        Agreement storage ag = agreements[_agreementId];
+        require(ag.status == AgreementStatus.Active, "Agreement not active");
+        require(msg.sender == ag.payer, "Only payer can claim deadline refund");
+        require(_milestoneIndex < _milestones[_agreementId].length, "Invalid milestone index");
+
+        Milestone storage m = _milestones[_agreementId][_milestoneIndex];
+        require(m.status == MilestoneStatus.Pending, "Milestone must be pending");
+        require(block.timestamp > m.deadline, "Milestone deadline has not elapsed");
+
+        m.status = MilestoneStatus.Refunded;
+        ag.refundedAmount += m.amount;
+
+        _checkAllCompleted(_agreementId);
+
+        emit MilestoneRefunded(_agreementId, _milestoneIndex, m.amount);
+
+        require(usdc.transfer(ag.payer, m.amount), "Deadline refund failed");
     }
 
     /**

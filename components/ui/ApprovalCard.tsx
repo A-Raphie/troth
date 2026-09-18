@@ -14,7 +14,7 @@ export interface ApprovalCardProps {
   title: string;
   amount: number;
   deadline?: string;
-  status: "pending" | "submitted" | "completed";
+  status: "pending" | "submitted" | "completed" | "refunded";
   deliverableUrl?: string;
   submittedAt?: number;
   reviewWindowDays?: number;
@@ -24,6 +24,7 @@ export interface ApprovalCardProps {
   onRequestRevision?: () => void;
   onSubmitWork?: () => void;
   onAutoRelease?: () => void;
+  onClaimDeadlineRefund?: () => void;
   className?: string;
 }
 
@@ -42,6 +43,7 @@ export function ApprovalCard({
   onRequestRevision,
   onSubmitWork,
   onAutoRelease,
+  onClaimDeadlineRefund,
   className,
 }: ApprovalCardProps) {
   // Compute remaining review window
@@ -50,6 +52,13 @@ export function ApprovalCard({
   const remainingMs = Math.max(0, reviewWindowMs - elapsedMs);
   const remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
   const isAutoReleaseReady = status === "submitted" && remainingMs <= 0;
+
+  // Check if delivery deadline has passed without submission
+  const isDeadlineExpired = Boolean(
+    status === "pending" &&
+    deadline &&
+    new Date(deadline).getTime() < Date.now()
+  );
 
   return (
     <div
@@ -92,12 +101,22 @@ export function ApprovalCard({
               Released
             </Badge>
           )}
+          {status === "refunded" && (
+            <Badge status="neutral" size="sm">
+              Refunded
+            </Badge>
+          )}
           {status === "submitted" && (
             <Badge status="info" size="sm">
               Under Review
             </Badge>
           )}
-          {status === "pending" && (
+          {status === "pending" && isDeadlineExpired && (
+            <Badge status="warning" size="sm">
+              Deadline Expired
+            </Badge>
+          )}
+          {status === "pending" && !isDeadlineExpired && (
             <Badge status="neutral" size="sm">
               Pending
             </Badge>
@@ -135,6 +154,19 @@ export function ApprovalCard({
 
       {/* Action Controls */}
       <div className="mt-4 flex flex-wrap items-center justify-end gap-2">
+        {status === "pending" && isPayer && isDeadlineExpired && onClaimDeadlineRefund && (
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={onClaimDeadlineRefund}
+            isLoading={isProcessing}
+            className="border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/10"
+          >
+            <RotateCcw className="w-3.5 h-3.5 mr-1" />
+            Reclaim Expired Milestone ({formatUSDC(amount)})
+          </Button>
+        )}
+
         {status === "pending" && !isPayer && onSubmitWork && (
           <Button
             size="sm"

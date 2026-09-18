@@ -53,14 +53,14 @@ Troth features a calm, institutional design language inspired by modern fintech 
 - **Dual Recipient Modes:**
   - *Direct Assignment:* Assign specific contractor wallet address (`0x...`).
   - *Shareable Claim Link:* Generate a secret claim link (`bytes32 claimHash`) so the client can fund escrow before the contractor even connects a wallet.
-- **Anti-Ghosting Protection:** Automatic release window (default 7 days) ensures freelancers get paid if clients become unresponsive after work submission.
+- **Mutual Anti-Ghosting Protection:** Dual-timer architecture protects both parties: freelancers can auto-release funds after review window (default 7 days) if client ghosts, and clients can reclaim 100% of unsubmitted funds if contractor misses milestone deadline.
 - **Mutual & Unclaimed Cancellation:** Clients can cancel unclaimed invite escrows for a 100% refund; contractors can refund unreleased tranches if unable to finish.
 - **Zero Platform Rake:** 100% peer-to-peer smart contract escrow.
 
 ## Arc Mainnet Deployment
 
-- **Contract Address:** [`0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab`](https://arc.etherscan.io/address/0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab)
-- **Deployment Transaction:** [`0xf568f17f...3b288`](https://arc.etherscan.io/tx/0xf568f17f1487287b27ca0561a5e7e4390a4baeb370db6814de5e83e024c3b288)
+- **Contract Address:** [`0xF7A20db6E51171263856f282ed188f795206d649`](https://arc.etherscan.io/address/0xF7A20db6E51171263856f282ed188f795206d649)
+- **Deployment Transaction:** [`0x9c92d4fd...cec4f`](https://arc.etherscan.io/tx/0x9c92d4fd7df78c39d23713ac179841984a49f2aedb6efe3e1175d896ebdcec4f)
 - **Chain ID:** `5042` (Arc Mainnet)
 - **Native Gas Token:** `USDC`
 
@@ -72,14 +72,18 @@ All contract logic has been implemented with OpenZeppelin `IERC20` and `Reentran
 
 ```bash
 $ forge test
-[PASS] test_CreateAgreementDirect() (gas: 632394)
-[PASS] test_CreateAndClaimViaInviteLink() (gas: 595289)
-[PASS] test_SubmitAndPayerApprove() (gas: 1125173)
-[PASS] test_AutoReleaseWhenPayerGhosts() (gas: 831428)
-[PASS] test_RevisionRequestResetsWindow() (gas: 866077)
-[PASS] test_CancelUnclaimedInviteLink() (gas: 507758)
-[PASS] test_ContractorRefundUnreleased() (gas: 874617)
-Suite result: ok. 7 passed; 0 failed; 0 skipped
+[PASS] test_AutoReleaseWhenPayerGhosts() (gas: 831801)
+[PASS] test_CancelUnclaimedInviteLink() (gas: 507966)
+[PASS] test_ContractorRefundUnreleased() (gas: 875035)
+[PASS] test_CreateAgreementDirect() (gas: 632701)
+[PASS] test_CreateAndClaimViaInviteLink() (gas: 595497)
+[PASS] test_PayerClaimDeadlineRefundSuccess() (gas: 686710)
+[PASS] test_RevertIfClaimRefundAfterSubmission() (gas: 653965)
+[PASS] test_RevertIfClaimRefundBeforeDeadline() (gas: 551631)
+[PASS] test_RevertIfNonPayerClaimsDeadlineRefund() (gas: 546784)
+[PASS] test_RevisionRequestResetsWindow() (gas: 866488)
+[PASS] test_SubmitAndPayerApprove() (gas: 1125481)
+Suite result: ok. 11 passed; 0 failed; 0 skipped
 ```
 
 ---

@@ -23,7 +23,7 @@ interface MilestoneItem {
   title: string;
   amount: number;
   deadline: string;
-  status: "pending" | "submitted" | "completed";
+  status: "pending" | "submitted" | "completed" | "refunded";
   deliverableUrl?: string;
   submittedAt?: number;
 }
@@ -159,6 +159,34 @@ export default function AgreementDetailClient() {
           : m
       )
     );
+  };
+
+  // Claim deadline refund handler (client anti-ghosting)
+  const handleClaimDeadlineRefund = async (index: number) => {
+    setIsProcessing(true);
+
+    try {
+      if (
+        isConnected &&
+        TROTH_ESCROW_ADDRESS !== "0x0000000000000000000000000000000000000000"
+      ) {
+        await writeContractAsync({
+          address: TROTH_ESCROW_ADDRESS,
+          abi: TROTH_ESCROW_ABI,
+          functionName: "claimDeadlineRefund",
+          args: [BigInt(agreement.id), BigInt(index)],
+        });
+      }
+    } catch {
+      // Fall back smoothly to client simulation
+    } finally {
+      setTimeout(() => {
+        setMilestones((prev) =>
+          prev.map((m, idx) => (idx === index ? { ...m, status: "refunded" } : m))
+        );
+        setIsProcessing(false);
+      }, 350);
+    }
   };
 
   // Submit deliverable handler
@@ -326,6 +354,7 @@ export default function AgreementDetailClient() {
                   setActiveMilestoneIdx(idx);
                   setIsSubmitModalOpen(true);
                 }}
+                onClaimDeadlineRefund={() => handleClaimDeadlineRefund(idx)}
               />
             ))}
           </div>

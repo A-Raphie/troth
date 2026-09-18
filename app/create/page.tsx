@@ -323,6 +323,18 @@ export default function CreateAgreementPage() {
                     />
 
                     <div className="flex items-center gap-2 w-full sm:w-auto">
+                      <select
+                        value={m.days}
+                        onChange={(e) => handleUpdateMilestone(m.id, "days", Number(e.target.value))}
+                        className="px-2 py-1.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs font-mono text-[var(--text-primary)] cursor-pointer"
+                        title="Delivery Duration"
+                      >
+                        <option value={3}>3 Days</option>
+                        <option value={7}>7 Days</option>
+                        <option value={14}>14 Days</option>
+                        <option value={30}>30 Days</option>
+                      </select>
+
                       <div className="relative w-28">
                         <span className="absolute left-2.5 top-1.5 text-xs font-mono text-[var(--text-muted)]">$</span>
                         <input
@@ -364,27 +376,46 @@ export default function CreateAgreementPage() {
               </div>
             </div>
 
-            {/* Step 4: Anti-Ghosting Window */}
-            <div className="space-y-3 pt-6 border-t border-[var(--border-default)]">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
-                    4. Anti-Ghosting Review Window
-                  </h2>
-                  <p className="text-xs text-[var(--text-secondary)]">
-                    Review duration before contractor can trigger automated release.
+            {/* Step 4: Mutual Protection Safeguards */}
+            <div className="space-y-4 pt-6 border-t border-[var(--border-default)]">
+              <div>
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                  4. Mutual Protection Safeguards
+                </h2>
+                <p className="text-xs text-[var(--text-secondary)] mt-1">
+                  Automated smart contract timers guarantee financial safety for both client and contractor.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--text-primary)]">Contractor Protection</span>
+                    <select
+                      value={reviewWindowDays}
+                      onChange={(e) => setReviewWindowDays(Number(e.target.value))}
+                      className="px-2 py-1 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-medium text-[var(--text-primary)] cursor-pointer"
+                    >
+                      <option value={1}>24 Hours (Fast)</option>
+                      <option value={3}>3 Days (Standard)</option>
+                      <option value={7}>7 Days (Default)</option>
+                      <option value={14}>14 Days (Extended)</option>
+                    </select>
+                  </div>
+                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
+                    Auto-releases USDC payout to contractor if client takes no action within {reviewWindowDays} days after deliverable submission.
                   </p>
                 </div>
-                <select
-                  value={reviewWindowDays}
-                  onChange={(e) => setReviewWindowDays(Number(e.target.value))}
-                  className="px-3 py-1.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs font-medium text-[var(--text-primary)] cursor-pointer"
-                >
-                  <option value={1}>24 Hours (Fast)</option>
-                  <option value={3}>3 Days (Standard)</option>
-                  <option value={7}>7 Days (Default)</option>
-                  <option value={14}>14 Days (Extended)</option>
-                </select>
+
+                <div className="p-3.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--text-primary)]">Client Protection</span>
+                    <span className="text-[11px] font-mono text-[var(--accent)] font-semibold bg-[var(--accent)]/10 px-2 py-0.5 rounded">Guaranteed</span>
+                  </div>
+                  <p className="text-[11px] text-[var(--text-secondary)] leading-relaxed">
+                    Client can reclaim a 100% USDC refund for any milestone where the contractor fails to submit work before the deadline expires.
+                  </p>
+                </div>
               </div>
             </div>
 

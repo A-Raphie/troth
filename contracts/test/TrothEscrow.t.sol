@@ -331,4 +331,60 @@ contract TrothEscrowTest is Test {
         assertEq(refunded, M2_AMOUNT);
         assertEq(uint8(status), uint8(TrothEscrow.AgreementStatus.Cancelled));
     }
+
+    function test_PayerClaimDeadlineRefundSuccess() public {
+        uint256 id = _createDirectAgreement();
+
+        // Time elapses past milestone 0 deadline (14 days) without contractor submitting work
+        vm.warp(block.timestamp + 15 days);
+
+        uint256 payerBalBefore = usdc.balanceOf(payer);
+
+        // Payer claims refund for expired milestone 0
+        vm.prank(payer);
+        escrow.claimDeadlineRefund(id, 0);
+
+        assertEq(usdc.balanceOf(payer), payerBalBefore + M1_AMOUNT);
+
+        TrothEscrow.Milestone[] memory ms = escrow.getMilestones(id);
+        assertEq(uint8(ms[0].status), uint8(TrothEscrow.MilestoneStatus.Refunded));
+    }
+
+    function test_RevertIfClaimRefundBeforeDeadline() public {
+        uint256 id = _createDirectAgreement();
+
+        // Warp only 2 days (deadline is 7 days)
+        vm.warp(block.timestamp + 2 days);
+
+        vm.prank(payer);
+        vm.expectRevert("Milestone deadline has not elapsed");
+        escrow.claimDeadlineRefund(id, 0);
+    }
+
+    function test_RevertIfClaimRefundAfterSubmission() public {
+        uint256 id = _createDirectAgreement();
+
+        // Contractor submits work before deadline
+        vm.prank(contractor);
+        escrow.submitMilestone(id, 0, "https://github.com/pr/1");
+
+        // Warp past deadline
+        vm.warp(block.timestamp + 8 days);
+
+        // Payer attempts to claim deadline refund on submitted milestone
+        vm.prank(payer);
+        vm.expectRevert("Milestone must be pending");
+        escrow.claimDeadlineRefund(id, 0);
+    }
+
+    function test_RevertIfNonPayerClaimsDeadlineRefund() public {
+        uint256 id = _createDirectAgreement();
+
+        vm.warp(block.timestamp + 8 days);
+
+        // Stranger or contractor attempts to claim refund
+        vm.prank(stranger);
+        vm.expectRevert("Only payer can claim deadline refund");
+        escrow.claimDeadlineRefund(id, 0);
+    }
 }

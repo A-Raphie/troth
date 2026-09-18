@@ -13,9 +13,9 @@
 | :--- | :--- |
 | **Live Web App** | [https://trytroth.netlify.app](https://trytroth.netlify.app) |
 | **Public GitHub Repo** | [https://github.com/A-Raphie/troth](https://github.com/A-Raphie/troth) |
-| **Arc Mainnet Contract** | [`0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab`](https://arc.etherscan.io/address/0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab) |
-| **Deployment Tx** | [`0xf568f17f...3b288`](https://arc.etherscan.io/tx/0xf568f17f1487287b27ca0561a5e7e4390a4baeb370db6814de5e83e024c3b288) |
-| **Foundry Test Suite** | 7/7 Tests Passing (`contracts/test/TrothEscrow.t.sol`) |
+| **Arc Mainnet Contract** | [`0xF7A20db6E51171263856f282ed188f795206d649`](https://arc.etherscan.io/address/0xF7A20db6E51171263856f282ed188f795206d649) |
+| **Deployment Tx** | [`0x9c92d4fd...cec4f`](https://arc.etherscan.io/tx/0x9c92d4fd7df78c39d23713ac179841984a49f2aedb6efe3e1175d896ebdcec4f) |
+| **Foundry Test Suite** | 11/11 Tests Passing (`contracts/test/TrothEscrow.t.sol`) |
 | **Arc Mainnet RPC** | `https://rpc.mainnet.arc.io` (Chain ID `5042`) |
 | **Arc Testnet RPC** | `https://rpc.testnet.arc.io` (Chain ID `5042002`) |
 
@@ -84,7 +84,7 @@ Arc provides native USDC gas (~$0.0001 per transaction) and instant deterministi
 
 ## 6. Accomplishments & Measurable Traction
 
-- **7/7 Foundry Unit Tests Passing (100% Coverage):** Verified contract mechanics against creation, authorization, timeout expiration, and unauthorized access attempts.
+- **11/11 Foundry Unit Tests Passing (100% Coverage):** Verified contract mechanics against creation, authorization, timeout expiration, deadline refund reclaims, and unauthorized access attempts.
 - **Live Production Deployment:** Deployed and verified on Netlify at [https://trytroth.netlify.app](https://trytroth.netlify.app) (HTTP 200 on all static routes).
 - **Zero-Rake Micro-Escrow Viability:** Demonstrated functional escrow creation with realistic $5–$10 milestone payments where gas costs represent less than 0.01% of the transfer amount.
 - **Full Open-Source Release:** Complete documentation, Foundry setup, and frontend codebase published under MIT License on GitHub at [https://github.com/A-Raphie/troth](https://github.com/A-Raphie/troth).
@@ -111,7 +111,7 @@ Arc provides native USDC gas (~$0.0001 per transaction) and instant deterministi
 | DoraHacks Criterion | How Troth Satisfies It |
 | :--- | :--- |
 | **Arc Ecosystem Alignment** | Built specifically around Arc's core differentiators: Native USDC gas and sub-second BFT settlement. |
-| **Technical Execution** | Fully tested Solidity contracts (7/7 Foundry tests passing), Next.js 16 App Router frontend, and live Netlify deployment. |
+| **Technical Execution** | Fully tested Solidity contracts (11/11 Foundry tests passing), Next.js 16 App Router frontend, and live Netlify deployment. |
 | **Product & UX Design** | High-Trust Minimalist Fintech aesthetic, tabular typography, interactive milestone inspector, and shareable cryptographic claim links. |
 | **Real-World Utility** | Directly targets the multi-billion dollar freelance/gig economy, replacing predatory 10%–20% Web2 platform fees. |
 | **Open Source Quality** | Clean Git history, MIT license, comprehensive `README.md`, and reproducible Foundry scripts. |
