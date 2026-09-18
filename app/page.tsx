@@ -57,8 +57,8 @@ export default function HomePage() {
             <span className="sm:hidden">Arc L1 · Native USDC Gas · 0% Fee</span>
           </div>
 
-          <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight text-balance">
-            Trustless milestone escrow on Arc.
+          <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight text-pretty sm:text-balance">
+            Trustless milestone<br className="sm:hidden" /> escrow on Arc.
           </h1>
 
           <p className="mt-4 text-sm sm:text-base text-[var(--text-secondary)] max-w-xl mx-auto text-pretty leading-relaxed">

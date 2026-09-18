@@ -50,11 +50,10 @@ export function Navbar() {
 
         {/* Action controls */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Network badge */}
-          <div className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-[11px] sm:text-xs font-mono text-[var(--text-secondary)] shrink-0">
+          {/* Network badge (hidden on mobile, visible on tablet/desktop) */}
+          <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-mono text-[var(--text-secondary)] shrink-0">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-            <span className="hidden sm:inline">Arc Mainnet</span>
-            <span className="sm:hidden">Arc</span>
+            <span>Arc Mainnet</span>
           </div>
 
           {/* Wallet connection */}
