@@ -6,8 +6,9 @@ Read this first if you are picking up or continuing work on Troth.
 
 Phase 0, Phase 1, and Phase 2 are complete:
 - Smart contract (`TrothEscrow.sol`) implemented and 100% verified with Foundry test suite (7/7 tests passing).
-- Next.js 16 app built and verified with Turbopack production build (`bun run build` in 3.8s, 0 errors).
-- Dual-theme interface (Option A: Minimalist Fintech vs Option B: Cyber Terminal) implemented with live toggle.
+- Next.js 16 app built and verified with Turbopack production build (`bun run build` in 1.2s, 0 errors).
+- Clean, single High-Trust Minimalist Fintech interface (Mercury/Stripe style) active across all routes.
+- Favicon added, zero-raw-hex tokens configured, and realistic micropayment amounts ($5-$10) set.
 - Local dev server is running on `http://localhost:3000`.
 
 ## What's Done
@@ -15,7 +16,7 @@ Phase 0, Phase 1, and Phase 2 are complete:
 - [x] Research completed on DoraHacks requirements, Arc Mainnet primitives, and Web2 escrow patterns.
 - [x] Full spec scaffolded (PRD, Architecture, design.md, Tasks, Memory, Handoff, ORCHESTRATOR).
 - [x] Smart Contract Core (`TrothEscrow.sol`) + Foundry test suite (100% pass rate).
-- [x] Frontend application with dual themes, interactive simulator, create wizard, and milestone manager.
+- [x] Frontend application with High-Trust Fintech design, interactive simulator, create wizard, and milestone manager.
 - [x] Turbopack production build verified cleanly.
 
 ## In Progress

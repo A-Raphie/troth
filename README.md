@@ -21,14 +21,13 @@ Troth is purpose-built for the **Arc Layer 1 network**:
 
 ---
 
-## 🎨 Dual-Theme Studio Interface
+## 🎨 High-Trust Minimalist Fintech Design
 
-Troth comes equipped with a live client-side theme switcher in the navigation bar:
-
-* **Option A: High-Trust Minimalist Fintech** (Mercury / Stripe / Linear inspired)
-  * Monochromatic deep zinc, razor hairline borders, tabular currency numbers, calm institutional hierarchy.
-* **Option B: Cyber-Terminal Dark Web3** (Arc L1 / Bloomberg / DevTools inspired)
-  * Obsidian dark canvas (`#090a0f`), electric cyan & emerald telemetry badges, glowing status dots, live network specs.
+Troth features a calm, institutional design language inspired by modern fintech infrastructure (Stripe, Mercury, Linear):
+* Monochromatic deep zinc palette with crisp contrast and hairline borders (`border-zinc-200/80`).
+* Tabular figures (`font-mono font-medium`) for transparent milestone amounts.
+* Interactive live escrow simulator on the landing page demonstrating upfront lock, milestone submission, and sub-second release.
+* Zero distraction, zero fluff: pure focus on financial safety, verifiable deliverable hashes, and deterministic payment settlement.
 
 ---
 
