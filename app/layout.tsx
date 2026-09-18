@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     title: "Troth — Trustless Milestone Escrow on Arc L1",
     description:
       "Break work into verifiable milestones. Lock USDC upfront with native gas. Releases in ~350ms.",
-    url: "https://troth.vercel.app",
+    url: "https://trytroth.netlify.app",
     siteName: "Troth",
     locale: "en_US",
     type: "website",
