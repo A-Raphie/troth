@@ -4,6 +4,9 @@ Running log of decisions, conventions, and architectural trade-offs. Newest at t
 
 ## Decisions
 
+- **2026-09-18** — **Single Fintech Design Direction:** Removed second terminal theme and theme toggle; standardized entire product on the High-Trust Minimalist Fintech aesthetic (Mercury/Stripe).
+- **2026-09-18** — **Realistic Micropayment Amounts:** Scaled mock/simulator numbers from \$1,500 down to realistic \$5 – \$10 tranches (\$25 total), demonstrating Arc's sub-cent gas efficiency on micro-gigs.
+- **2026-09-18** — **Landing Page Streamlining:** Removed repetitive metric callouts in favor of a concise 3-step "How It Works" workflow (Lock → Deliver → Release).
 - **2026-09-18** — **Name Selection ("Troth"):** Selected from archaic English legal corpus (*"plight one's troth"* = sacred binding pledge). One syllable, zero naming collisions in crypto, directly conveys trustless commitment.
 - **2026-09-18** — **Web2 Escrow Alignment (Upwork/Fiverr Model):** Chose multi-milestone support and automatic release windows ($N$ days review timeout) over naive multisig or DAO arbitration. Protects contractors against client ghosting.
 - **2026-09-18** — **Dual Recipient Assignment:** Supported both direct wallet addresses and claimable invite links (`bytes32 claimHash`). Allows funders to create escrows before the contractor sets up their wallet.
