@@ -3,22 +3,19 @@
 import React from "react";
 import Link from "next/link";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { useTheme } from "@/context/ThemeContext";
-import { Shield, Wallet, ArrowUpRight, Terminal, Landmark } from "lucide-react";
+import { Shield, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { Badge } from "@/components/ui/Badge";
 import { truncateAddress } from "@/lib/utils";
 
 export function Navbar() {
-  const { theme, toggleTheme } = useTheme();
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-[var(--border-default)] bg-[var(--bg-surface)]/95 backdrop-blur-sm transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand identity */}
+    <header className="sticky top-0 z-40 w-full border-b border-[var(--border-default)] bg-[var(--bg-surface)]/95 backdrop-blur-sm">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        {/* Brand */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5 group select-none">
             <div className="size-8 rounded-[var(--radius-input)] bg-[var(--accent)] text-[var(--accent-foreground)] flex items-center justify-center transition-transform group-hover:scale-105 shadow-xs">
@@ -29,7 +26,7 @@ export function Navbar() {
                 Troth
               </span>
               <span className="text-[10px] font-mono tracking-wider text-[var(--text-muted)] uppercase mt-0.5">
-                Arc Mainnet · 350ms
+                Arc Mainnet
               </span>
             </div>
           </Link>
@@ -54,31 +51,10 @@ export function Navbar() {
         {/* Action controls */}
         <div className="flex items-center gap-3">
           {/* Network indicator pill */}
-          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-mono text-[var(--text-secondary)]">
+          <div className="flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-mono text-[var(--text-secondary)]">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>Arc: 5042</span>
           </div>
-
-          {/* Theme preference toggle */}
-          <button
-            onClick={toggleTheme}
-            aria-label="Toggle between Fintech and Terminal theme"
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-all cursor-pointer"
-          >
-            {theme === "fintech" ? (
-              <>
-                <Landmark className="size-3.5 text-[var(--text-primary)]" />
-                <span className="hidden sm:inline">Theme:</span>
-                <span className="text-[var(--text-primary)] font-bold">Fintech</span>
-              </>
-            ) : (
-              <>
-                <Terminal className="size-3.5 text-[var(--accent)]" />
-                <span className="hidden sm:inline">Theme:</span>
-                <span className="text-[var(--accent)] font-mono font-bold">Terminal</span>
-              </>
-            )}
-          </button>
 
           {/* Wallet connection */}
           {isConnected && address ? (

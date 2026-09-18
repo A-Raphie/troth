@@ -7,202 +7,137 @@ import {
   Zap,
   Clock,
   ArrowRight,
-  CheckCircle2,
-  Lock,
-  ExternalLink,
-  ChevronRight,
-  Sparkles,
-  Layers,
-  FileCheck,
-  UserCheck,
-  Ban,
-  Activity,
   Check,
-  X,
+  ExternalLink,
+  Lock,
+  Send,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
-import { StatCard } from "@/components/ui/StatCard";
 import { formatUSDC } from "@/lib/utils";
 
 export default function HomePage() {
-  // Interactive Live Escrow Simulator state
-  const [demoStep, setDemoStep] = useState<number>(1);
+  // Realistic Micro-Escrow Simulator ($5 - $10 tranches)
+  const [demoStep, setDemoStep] = useState<number>(2);
   const [isApproving, setIsApproving] = useState<boolean>(false);
 
   const handleSimulateApprove = () => {
     setIsApproving(true);
     setTimeout(() => {
       setIsApproving(false);
-      setDemoStep((prev) => (prev < 3 ? prev + 1 : 3));
-    }, 350); // Arc sub-second 350ms finality simulation
+      setDemoStep(3);
+    }, 350); // Arc ~350ms finality
   };
 
   return (
     <div className="w-full min-h-[calc(100dvh-4rem)] flex flex-col">
-      {/* Live Telemetry Ticker */}
-      <div className="w-full border-b border-[var(--border-default)] bg-[var(--bg-subtle)] py-2 px-4 text-xs font-mono text-[var(--text-secondary)]">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 font-semibold text-[var(--text-primary)]">
-              <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>ARC MAINNET</span>
-            </span>
-            <span className="text-[var(--border-strong)]">/</span>
-            <span>CHAIN ID: 5042</span>
-            <span className="text-[var(--border-strong)]">/</span>
-            <span>GAS: ~$0.0001 USDC NATIVE</span>
+      {/* Network Ribbon */}
+      <div className="w-full border-b border-[var(--border-default)] bg-[var(--bg-subtle)] py-1.5 px-4 text-xs font-mono text-[var(--text-secondary)]">
+        <div className="max-w-5xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="font-medium text-[var(--text-primary)]">Arc Mainnet (5042)</span>
           </div>
-
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1 font-semibold text-[var(--text-primary)]">
-              <Zap className="size-3.5 text-emerald-600 dark:text-emerald-400" />
-              <span>FINALITY: ~350ms</span>
-            </span>
-            <span className="text-[var(--border-strong)]">/</span>
-            <span>PLATFORM RAKE: 0%</span>
+          <div className="flex items-center gap-4 text-[var(--text-muted)]">
+            <span>USDC Native Gas</span>
+            <span>·</span>
+            <span>0% Fee</span>
           </div>
         </div>
       </div>
 
-      {/* Institutional Hero Section */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 sm:pt-20 sm:pb-16 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs font-medium text-[var(--text-secondary)] mb-6 shadow-xs select-none">
-          <ShieldCheck className="size-3.5 text-emerald-600 dark:text-emerald-400" />
-          <span>Institutional-Grade Milestone Escrow</span>
-        </div>
-
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[var(--text-primary)] text-balance leading-tight">
-          Milestone Escrow on Arc. <br />
-          <span className="text-[var(--text-muted)] font-medium">
-            Sub-second release. Zero platform rake.
-          </span>
+      {/* Hero */}
+      <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-10 text-center">
+        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] text-balance">
+          Trustless milestone escrow on Arc.
         </h1>
 
-        <p className="mt-5 text-base sm:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto text-pretty leading-relaxed">
-          Upwork and Fiverr-grade payment protection, built natively for Web3 and autonomous agents. Lock USDC upfront, verify deliverable proofs, and release with ~350ms deterministic finality.
+        <p className="mt-4 text-base sm:text-lg text-[var(--text-secondary)] max-w-xl mx-auto text-pretty">
+          Break work into verifiable tranches. Lock USDC upfront. Auto-release on client approval or inactivity.
         </p>
 
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="mt-6 flex items-center justify-center gap-3">
           <Link href="/create">
-            <Button size="lg" variant="primary">
-              <span>Create New Escrow</span>
-              <ArrowRight className="size-4" />
+            <Button size="md" variant="primary">
+              <span>Create Escrow</span>
+              <ArrowRight className="size-3.5" />
             </Button>
           </Link>
-
-          <a href="#interactive-simulator">
-            <Button size="lg" variant="outline">
-              <span>View Interactive Demo</span>
+          <a href="#how-it-works">
+            <Button size="md" variant="outline">
+              <span>How It Works</span>
             </Button>
           </a>
         </div>
       </section>
 
-      {/* High-Density Metric Strip */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-12 w-full">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-          <StatCard
-            label="Platform Fee"
-            value="0.00%"
-            subtext="Peer-to-peer contract"
-            indicator="positive"
-          />
-          <StatCard
-            label="Settlement Speed"
-            value="~350ms"
-            subtext="Malachite BFT consensus"
-            indicator="positive"
-          />
-          <StatCard
-            label="Gas Asset"
-            value="USDC"
-            subtext="Native dollar precision"
-          />
-          <StatCard
-            label="Anti-Ghosting"
-            value="7 Days"
-            subtext="On-chain auto-release"
-            indicator="positive"
-          />
-        </div>
-      </section>
-
-      {/* Interactive Escrow Simulator */}
-      <section id="interactive-simulator" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
-        <Card level="surface" className="p-6 sm:p-8">
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-[var(--border-default)]">
+      {/* Realistic Interactive Simulator */}
+      <section className="max-w-3xl mx-auto px-4 sm:px-6 pb-16 w-full">
+        <Card level="surface" className="p-5 sm:p-7">
+          <div className="flex items-center justify-between pb-4 border-b border-[var(--border-default)]">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xs font-mono font-bold uppercase tracking-wider text-[var(--text-muted)]">
-                  Live Contract Simulator
-                </span>
-                <Badge variant="success" dot>
-                  Arc Mainnet
-                </Badge>
-              </div>
-              <h2 className="text-lg sm:text-xl font-bold text-[var(--text-primary)]">
-                Agreement #104 · Full Stack dApp & Contracts
+              <span className="text-[11px] font-mono font-semibold uppercase text-[var(--text-muted)] block">
+                Escrow #104 · Arc Micro-Grant PoC
+              </span>
+              <h2 className="text-base font-bold text-[var(--text-primary)]">
+                Mini App Smart Contract & UI
               </h2>
             </div>
-
             <div className="text-right">
-              <span className="text-xs font-mono text-[var(--text-muted)] uppercase block">
-                Escrow Deposit
+              <span className="text-[11px] font-mono text-[var(--text-muted)] uppercase block">
+                Total Locked
               </span>
-              <span className="text-xl font-bold font-mono text-[var(--text-primary)] tabular-nums">
-                1,500.00 USDC
+              <span className="text-base font-bold font-mono text-[var(--text-primary)] tabular-nums">
+                $25.00 USDC
               </span>
             </div>
           </div>
 
-          {/* Stepper list */}
-          <div className="py-6 space-y-3">
-            {/* Milestone 1: Completed */}
-            <div className="p-4 rounded-[var(--radius-card)] border border-[var(--border-default)] bg-[var(--bg-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-start sm:items-center gap-3">
-                <div className="size-7 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
-                  <Check className="size-4 stroke-[3]" />
+          {/* Milestones list with realistic $5 - $10 amounts */}
+          <div className="py-4 space-y-2.5">
+            {/* Milestone 1: $10.00 (Completed) */}
+            <div className="p-3 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-subtle)] flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5">
+                <div className="size-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shrink-0">
+                  <Check className="size-3 stroke-[3]" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-[var(--text-primary)]">
-                    Milestone 1: Smart Contracts & Gas Abstraction
+                  <h3 className="font-medium text-xs text-[var(--text-primary)]">
+                    1. Smart Contract Core & Tests
                   </h3>
-                  <span className="text-xs font-mono text-[var(--text-muted)]">
-                    Released instantly · 500.00 USDC
+                  <span className="text-[11px] font-mono text-[var(--text-muted)]">
+                    $10.00 USDC · Released
                   </span>
                 </div>
               </div>
               <Badge variant="success">Released</Badge>
             </div>
 
-            {/* Milestone 2: Active & Interactive */}
+            {/* Milestone 2: $10.00 (Ready to Approve) */}
             <div
-              className={`p-4 rounded-[var(--radius-card)] border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all duration-150 ${
+              className={`p-3 rounded-[var(--radius-input)] border flex items-center justify-between gap-3 transition-colors ${
                 demoStep === 2
-                  ? "border-[var(--accent)] bg-[var(--bg-surface)] shadow-xs"
-                  : demoStep > 2
-                  ? "border-[var(--border-default)] bg-[var(--bg-subtle)]"
-                  : "border-[var(--border-default)] opacity-60"
+                  ? "border-[var(--accent)] bg-[var(--bg-surface)]"
+                  : "border-[var(--border-default)] bg-[var(--bg-subtle)]"
               }`}
             >
-              <div className="flex items-start sm:items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <div
-                  className={`size-7 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${
-                    demoStep > 2
+                  className={`size-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                    demoStep >= 3
                       ? "bg-emerald-500 text-white"
                       : "bg-[var(--accent)] text-[var(--accent-foreground)]"
                   }`}
                 >
-                  {demoStep > 2 ? <Check className="size-4 stroke-[3]" /> : "2"}
+                  {demoStep >= 3 ? <Check className="size-3 stroke-[3]" /> : "2"}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-[var(--text-primary)]">
-                    Milestone 2: Frontend & Dual-Theme System
+                  <h3 className="font-medium text-xs text-[var(--text-primary)]">
+                    2. Frontend Interface & Arc Connect
                   </h3>
-                  <span className="text-xs font-mono text-[var(--text-secondary)]">
-                    Proof: github.com/pull/42 · 600.00 USDC
+                  <span className="text-[11px] font-mono text-[var(--text-secondary)]">
+                    $10.00 USDC · PR #12 submitted
                   </span>
                 </div>
               </div>
@@ -214,103 +149,79 @@ export default function HomePage() {
                   isLoading={isApproving}
                   onClick={handleSimulateApprove}
                 >
-                  <Zap className="size-3.5 text-emerald-400" />
-                  <span>Approve & Release (Simulate)</span>
+                  <Zap className="size-3 text-emerald-400" />
+                  <span>Approve & Release</span>
                 </Button>
-              ) : demoStep > 2 ? (
-                <Badge variant="success">Released</Badge>
               ) : (
-                <Badge variant="pending">Pending</Badge>
+                <Badge variant="success">Released</Badge>
               )}
             </div>
 
-            {/* Milestone 3: Pending */}
-            <div
-              className={`p-4 rounded-[var(--radius-card)] border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all duration-150 ${
-                demoStep === 3
-                  ? "border-[var(--accent)] bg-[var(--bg-surface)]"
-                  : "border-[var(--border-default)] opacity-60"
-              }`}
-            >
-              <div className="flex items-start sm:items-center gap-3">
-                <div className="size-7 rounded-full bg-[var(--bg-subtle)] border border-[var(--border-default)] text-[var(--text-muted)] flex items-center justify-center font-bold text-xs shrink-0">
+            {/* Milestone 3: $5.00 (Pending) */}
+            <div className="p-3 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-subtle)] flex items-center justify-between gap-3 opacity-75">
+              <div className="flex items-center gap-2.5">
+                <div className="size-5 rounded-full bg-[var(--bg-surface)] border border-[var(--border-default)] text-[var(--text-muted)] flex items-center justify-center text-[10px] font-bold shrink-0">
                   3
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm text-[var(--text-primary)]">
-                    Milestone 3: Mainnet Verification & Launch
+                  <h3 className="font-medium text-xs text-[var(--text-primary)]">
+                    3. Mainnet Deployment & Submission Docs
                   </h3>
-                  <span className="text-xs font-mono text-[var(--text-muted)]">
-                    Due Oct 10, 2026 · 400.00 USDC
+                  <span className="text-[11px] font-mono text-[var(--text-muted)]">
+                    $5.00 USDC · In Progress
                   </span>
                 </div>
               </div>
-              <Badge variant="pending">
-                {demoStep === 3 ? "In Progress" : "Pending"}
-              </Badge>
+              <Badge variant="pending">Pending</Badge>
             </div>
           </div>
 
-          {/* Anti-ghosting explainer callout */}
-          <div className="p-3.5 rounded-lg border border-[var(--border-default)] bg-[var(--bg-subtle)] flex items-start gap-2.5 text-xs text-[var(--text-secondary)]">
-            <Clock className="size-4 text-[var(--text-primary)] shrink-0 mt-0.5" />
-            <p className="leading-normal">
-              <strong className="text-[var(--text-primary)]">Automated Anti-Ghosting:</strong> If a client goes silent for 7 days following a deliverable submission, the contractor can trigger an on-chain auto-release to unlock the tranche without human platform support.
-            </p>
+          <div className="pt-2 flex items-center justify-between text-[11px] text-[var(--text-muted)] font-mono border-t border-[var(--border-default)]">
+            <span className="flex items-center gap-1.5">
+              <Clock className="size-3 text-[var(--text-secondary)]" />
+              <span>7-day review window safeguards contractors against ghosting</span>
+            </span>
+            <span>Settles in ~350ms</span>
           </div>
         </Card>
       </section>
 
-      {/* Comparison Grid */}
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[var(--border-default)] w-full">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-[var(--text-primary)] text-balance">
-            The Structural Advantage of Arc
-          </h2>
-          <p className="mt-2 text-sm text-[var(--text-secondary)] text-pretty">
-            Why building milestone escrow on Arc outperforms both traditional Web2 and existing Layer 1/2 networks.
-          </p>
-        </div>
+      {/* How It Works (Streamlined, Non-Redundant) */}
+      <section id="how-it-works" className="max-w-4xl mx-auto px-4 sm:px-6 py-12 border-t border-[var(--border-default)] w-full">
+        <h2 className="text-lg font-bold tracking-tight text-[var(--text-primary)] text-center mb-8">
+          How Troth Works
+        </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card level="surface" className="p-5">
-            <h3 className="font-bold text-sm text-[var(--text-primary)] mb-3 flex items-center gap-2">
-              <X className="size-4 text-red-500" />
-              <span>Web2 (Upwork / Fiverr)</span>
-            </h3>
-            <ul className="space-y-2 text-xs text-[var(--text-secondary)]">
-              <li>• 10% to 20% platform rake on gross earnings</li>
-              <li>• 7 to 14 days mandatory holding periods</li>
-              <li>• Centralized dispute bias & chargeback risk</li>
-              <li>• Strict platform lock-in & KYC overhead</li>
-            </ul>
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+          <div className="space-y-2">
+            <div className="size-7 rounded-[var(--radius-input)] bg-[var(--bg-subtle)] border border-[var(--border-default)] flex items-center justify-center text-xs font-bold font-mono text-[var(--text-primary)]">
+              1
+            </div>
+            <h3 className="font-bold text-sm text-[var(--text-primary)]">Lock Upfront</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              Payer defines milestones ($5 – $50+) and locks USDC into the contract. A claim link is shared with the contractor.
+            </p>
+          </div>
 
-          <Card level="surface" className="p-5">
-            <h3 className="font-bold text-sm text-[var(--text-primary)] mb-3 flex items-center gap-2">
-              <X className="size-4 text-amber-500" />
-              <span>Standard Ethereum / L2s</span>
-            </h3>
-            <ul className="space-y-2 text-xs text-[var(--text-secondary)]">
-              <li>• Requires volatile native gas token (ETH)</li>
-              <li>• Unpredictable network gas spikes</li>
-              <li>• Multi-sig wallets lack milestone logic</li>
-              <li>• Multi-minute block confirmations</li>
-            </ul>
-          </Card>
+          <div className="space-y-2">
+            <div className="size-7 rounded-[var(--radius-input)] bg-[var(--bg-subtle)] border border-[var(--border-default)] flex items-center justify-center text-xs font-bold font-mono text-[var(--text-primary)]">
+              2
+            </div>
+            <h3 className="font-bold text-sm text-[var(--text-primary)]">Deliver & Prove</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              Contractor connects wallet, claims agreement, and attaches a link to their deliverable (PR, demo, or commit).
+            </p>
+          </div>
 
-          <Card level="surface" className="p-5 border-[var(--accent)] shadow-xs">
-            <h3 className="font-bold text-sm text-[var(--text-primary)] mb-3 flex items-center gap-2">
-              <Check className="size-4 text-emerald-600" />
-              <span>Troth on Arc Mainnet</span>
-            </h3>
-            <ul className="space-y-2 text-xs text-[var(--text-secondary)]">
-              <li>• 0% platform fee — direct peer-to-peer</li>
-              <li>• Deterministic ~350ms BFT finality</li>
-              <li>• Gas paid natively in USDC (~$0.0001)</li>
-              <li>• Anti-ghosting auto-release in smart code</li>
-            </ul>
-          </Card>
+          <div className="space-y-2">
+            <div className="size-7 rounded-[var(--radius-input)] bg-[var(--bg-subtle)] border border-[var(--border-default)] flex items-center justify-center text-xs font-bold font-mono text-[var(--text-primary)]">
+              3
+            </div>
+            <h3 className="font-bold text-sm text-[var(--text-primary)]">Sub-Second Release</h3>
+            <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
+              Payer approves with 1 click to release USDC instantly. If payer is inactive for 7 days, funds auto-release.
+            </p>
+          </div>
         </div>
       </section>
     </div>

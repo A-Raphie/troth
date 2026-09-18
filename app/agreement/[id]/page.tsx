@@ -45,11 +45,11 @@ export default function AgreementDetailPage() {
   // Simulated Agreement State
   const [agreement, setAgreement] = useState({
     id: agreementId || "104",
-    title: "Full Stack Arc dApp & Contract Escrow",
+    title: "Arc Mini App PoC & Smart Contracts",
     payer: "0x8a3F912dE37c4B23D3F148B92e62464197c349B1",
     contractor: claimSecret ? "" : "0x34Bc91F0992a6C2718E2376A96E78e0E25e7922A",
-    totalAmount: 1500,
-    releasedAmount: 500,
+    totalAmount: 25,
+    releasedAmount: 10,
     reviewWindowDays: 7,
     status: claimSecret ? "open" : "active",
   });
@@ -57,16 +57,16 @@ export default function AgreementDetailPage() {
   const [milestones, setMilestones] = useState<MilestoneItem[]>([
     {
       id: 0,
-      title: "Milestone 1: Smart Contracts & Gas Abstraction",
-      amount: 500,
+      title: "Milestone 1: Smart Contract Core & Tests",
+      amount: 10,
       deadline: "2026-09-22",
       status: "completed",
       deliverableUrl: "https://github.com/arc-ecosystem/troth/commit/49f2b1",
     },
     {
       id: 1,
-      title: "Milestone 2: Frontend & Dual-Theme System",
-      amount: 600,
+      title: "Milestone 2: Frontend Interface & Connect",
+      amount: 10,
       deadline: "2026-09-29",
       status: "submitted",
       deliverableUrl: "https://github.com/arc-ecosystem/troth/pull/42",
@@ -75,7 +75,7 @@ export default function AgreementDetailPage() {
     {
       id: 2,
       title: "Milestone 3: Mainnet Verification & Launch",
-      amount: 400,
+      amount: 5,
       deadline: "2026-10-08",
       status: "pending",
     },

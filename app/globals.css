@@ -2,7 +2,7 @@
 
 :root {
   /* ==========================================================================
-     Option A: High-Trust Minimalist Fintech (Primary Default)
+     High-Trust Minimalist Fintech Theme
      Stripe / Mercury / Linear architectural palette: crisp, calm, dense.
      ========================================================================== */
 
@@ -47,35 +47,6 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Geist Mono", monospace;
 }
 
-[data-theme="terminal"] {
-  /* Option B: Cyber-Terminal Dark Web3 */
-  --bg-base: #08090d;
-  --bg-surface: #0f1118;
-  --bg-subtle: #161824;
-  --bg-overlay: #131520;
-
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-
-  --border-default: #1e2233;
-  --border-strong: #333a54;
-
-  --accent: #00f2fe;
-  --accent-subtle: rgba(0, 242, 254, 0.12);
-  --accent-foreground: #08090d;
-  --accent-rgb: 0 242 254;
-
-  --status-pending: #fbbf24;
-  --status-pending-bg: rgba(245, 158, 11, 0.15);
-  --status-submitted: #38bdf8;
-  --status-submitted-bg: rgba(56, 189, 248, 0.15);
-  --status-success: #34d399;
-  --status-success-bg: rgba(16, 185, 129, 0.15);
-  --status-error: #f87171;
-  --status-error-bg: rgba(239, 68, 68, 0.15);
-}
-
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
@@ -83,24 +54,11 @@ body {
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
 /* Tabular figures for financial currency accuracy */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
-}
-
-/* Subtle background textures */
-.fintech-surface {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-default);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-}
-
-.fintech-surface-hover:hover {
-  border-color: var(--border-strong);
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
 }
 
 /* Button & interaction styles */

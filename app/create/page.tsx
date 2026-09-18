@@ -38,8 +38,8 @@ export default function CreateAgreementPage() {
   const [reviewWindowDays, setReviewWindowDays] = useState<number>(7);
 
   const [milestones, setMilestones] = useState<MilestoneFormItem[]>([
-    { id: "1", title: "Milestone 1: Smart Contracts & Gas Abstraction", amount: "500", days: 7 },
-    { id: "2", title: "Milestone 2: Frontend & Deployment", amount: "1000", days: 14 },
+    { id: "1", title: "Milestone 1: Smart Contracts & Tests", amount: "10", days: 7 },
+    { id: "2", title: "Milestone 2: Frontend & Deployment", amount: "15", days: 14 },
   ]);
 
   const [claimSecret, setClaimSecret] = useState<string>(() => {
@@ -58,7 +58,7 @@ export default function CreateAgreementPage() {
     const nextId = (milestones.length + 1).toString();
     setMilestones((prev) => [
       ...prev,
-      { id: nextId, title: `Milestone ${nextId}: `, amount: "250", days: 7 },
+      { id: nextId, title: `Milestone ${nextId}: `, amount: "5", days: 7 },
     ]);
   };
 
