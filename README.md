@@ -90,8 +90,8 @@ Suite result: ok. 7 passed; 0 failed; 0 skipped
 ## Quick Start
 
 ### 1. Live Production Deployment
-The application is deployed and live on Netlify:  
-👉 **[https://trytroth.netlify.app](https://trytroth.netlify.app)**
+The application is deployed and live on Netlify:
+- **Production URL:** [https://trytroth.netlify.app](https://trytroth.netlify.app)
 
 ### 2. Smart Contracts (Foundry)
 ```bash
