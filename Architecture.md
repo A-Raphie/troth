@@ -136,7 +136,7 @@ struct Agreement {
 | **Frontend Framework** | Next.js 15 (App Router) + TypeScript | Fast serverless rendering, clean routing, easy static export. |
 | **Web3 Client** | `wagmi` v2 + `viem` | Lightweight, performant, native support for custom EVM chains and Arc RPC. |
 | **Styling & UI** | Tailwind CSS + Lucide Icons | Rapid token-driven layout; enables clean dual-theme toggle. |
-| **Hosting** | Vercel (Static / Serverless) | Free, static-hostable rule compliant (no always-on backend daemons required). |
+| **Hosting** | Netlify (Static Prebuilt) | Free, static-hostable rule compliant (no always-on backend daemons required). |
 
 ## Key Decisions & Trade-offs
 

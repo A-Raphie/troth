@@ -11,7 +11,7 @@ Running log of decisions, conventions, and architectural trade-offs. Newest at t
 - **2026-09-18** — **Web2 Escrow Alignment (Upwork/Fiverr Model):** Chose multi-milestone support and automatic release windows ($N$ days review timeout) over naive multisig or DAO arbitration. Protects contractors against client ghosting.
 - **2026-09-18** — **Dual Recipient Assignment:** Supported both direct wallet addresses and claimable invite links (`bytes32 claimHash`). Allows funders to create escrows before the contractor sets up their wallet.
 - **2026-09-18** — **Dual-Theme Studio Architecture:** Supported both Option A (High-Trust Minimalist Fintech) and Option B (Cyber-Terminal Dark Web3) via a client-side theme switcher to let judges and users choose their preferred aesthetic.
-- **2026-09-18** — **Client-Only Architecture (Static Rule):** No PostgreSQL/MongoDB backend or persistent daemons; all agreement state lives purely on Arc Mainnet smart contracts, guaranteeing 100% uptime on Vercel without trial expiration risks.
+- **2026-09-18** — **Client-Only Architecture (Static Rule):** No PostgreSQL/MongoDB backend or persistent daemons; all agreement state lives purely on Arc Mainnet smart contracts, guaranteeing 100% uptime on Netlify without trial expiration risks.
 
 ## Conventions
 
