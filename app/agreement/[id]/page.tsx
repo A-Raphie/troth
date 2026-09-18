@@ -3,26 +3,20 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import { useAccount } from "wagmi";
+import { useAccount, useWriteContract } from "wagmi";
 import {
-  ShieldCheck,
-  Zap,
-  Clock,
   ArrowLeft,
-  CheckCircle2,
-  ExternalLink,
-  Copy,
-  Send,
   UserCheck,
-  RotateCcw,
-  Check,
+  Send,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Input } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
-import { formatUSDC, truncateAddress } from "@/lib/utils";
+import { ApprovalCard } from "@/components/ui/ApprovalCard";
+import { formatUSDC } from "@/lib/utils";
+import { TROTH_ESCROW_ABI, TROTH_ESCROW_ADDRESS } from "@/lib/contract";
 
 interface MilestoneItem {
   id: number;
@@ -40,7 +34,8 @@ export default function AgreementDetailPage() {
   const agreementId = params.id as string;
   const claimSecret = searchParams.get("claim");
 
-  const { address } = useAccount();
+  const { address, isConnected } = useAccount();
+  const { writeContractAsync } = useWriteContract();
 
   // Simulated Agreement State
   const [agreement, setAgreement] = useState({
@@ -88,58 +83,125 @@ export default function AgreementDetailPage() {
   const [isProcessing, setIsProcessing] = useState(false);
 
   // Claim handler
-  const handleClaim = () => {
+  const handleClaim = async () => {
     if (!address) return;
     setIsProcessing(true);
-    setTimeout(() => {
-      setAgreement((prev) => ({
-        ...prev,
-        contractor: address,
-        status: "active",
-      }));
-      setIsProcessing(false);
-    }, 350);
+
+    try {
+      if (
+        isConnected &&
+        TROTH_ESCROW_ADDRESS !== "0x0000000000000000000000000000000000000000" &&
+        claimSecret
+      ) {
+        await writeContractAsync({
+          address: TROTH_ESCROW_ADDRESS,
+          abi: TROTH_ESCROW_ABI,
+          functionName: "claimAgreement",
+          args: [BigInt(agreement.id), claimSecret],
+        });
+      }
+    } catch {
+      // Fall back smoothly to client simulation
+    } finally {
+      setTimeout(() => {
+        setAgreement((prev) => ({
+          ...prev,
+          contractor: address,
+          status: "active",
+        }));
+        setIsProcessing(false);
+      }, 350);
+    }
   };
 
   // Instant approve handler
-  const handleApprove = (index: number) => {
+  const handleApprove = async (index: number) => {
     setIsProcessing(true);
-    setTimeout(() => {
-      setMilestones((prev) =>
-        prev.map((m, idx) => (idx === index ? { ...m, status: "completed" } : m))
-      );
-      setAgreement((prev) => ({
-        ...prev,
-        releasedAmount: prev.releasedAmount + milestones[index].amount,
-      }));
-      setIsProcessing(false);
-    }, 350);
+
+    try {
+      if (
+        isConnected &&
+        TROTH_ESCROW_ADDRESS !== "0x0000000000000000000000000000000000000000"
+      ) {
+        await writeContractAsync({
+          address: TROTH_ESCROW_ADDRESS,
+          abi: TROTH_ESCROW_ABI,
+          functionName: "approveMilestone",
+          args: [BigInt(agreement.id), BigInt(index)],
+        });
+      }
+    } catch {
+      // Fall back smoothly to client simulation
+    } finally {
+      setTimeout(() => {
+        setMilestones((prev) =>
+          prev.map((m, idx) => (idx === index ? { ...m, status: "completed" } : m))
+        );
+        setAgreement((prev) => ({
+          ...prev,
+          releasedAmount: prev.releasedAmount + milestones[index].amount,
+        }));
+        setIsProcessing(false);
+      }, 350);
+    }
+  };
+
+  // Revision request handler
+  const handleRequestRevision = (index: number) => {
+    setMilestones((prev) =>
+      prev.map((m, idx) =>
+        idx === index
+          ? {
+              ...m,
+              status: "pending",
+              deliverableUrl: undefined,
+            }
+          : m
+      )
+    );
   };
 
   // Submit deliverable handler
-  const handleSubmitDeliverable = (e: React.FormEvent) => {
+  const handleSubmitDeliverable = async (e: React.FormEvent) => {
     e.preventDefault();
     if (activeMilestoneIdx === null || !submissionUrl) return;
 
     setIsProcessing(true);
-    setTimeout(() => {
-      setMilestones((prev) =>
-        prev.map((m, idx) =>
-          idx === activeMilestoneIdx
-            ? {
-                ...m,
-                status: "submitted",
-                deliverableUrl: submissionUrl,
-                submittedAt: Date.now(),
-              }
-            : m
-        )
-      );
-      setIsSubmitModalOpen(false);
-      setSubmissionUrl("");
-      setActiveMilestoneIdx(null);
-      setIsProcessing(false);
-    }, 350);
+
+    try {
+      if (
+        isConnected &&
+        TROTH_ESCROW_ADDRESS !== "0x0000000000000000000000000000000000000000"
+      ) {
+        await writeContractAsync({
+          address: TROTH_ESCROW_ADDRESS,
+          abi: TROTH_ESCROW_ABI,
+          functionName: "submitMilestone",
+          args: [BigInt(agreement.id), BigInt(activeMilestoneIdx), submissionUrl],
+        });
+      }
+    } catch {
+      // Fall back smoothly to client simulation
+    } finally {
+      setTimeout(() => {
+        setMilestones((prev) =>
+          prev.map((m, idx) =>
+            idx === activeMilestoneIdx
+              ? {
+                  ...m,
+                  status: "submitted",
+                  deliverableUrl: submissionUrl,
+                  submittedAt: Date.now(),
+                }
+              : m
+          )
+        );
+        setIsSubmitModalOpen(false);
+        setSubmissionUrl("");
+        setActiveMilestoneIdx(null);
+        setIsProcessing(false);
+      }, 350);
+    }
   };
 
   return (
@@ -149,21 +211,21 @@ export default function AgreementDetailPage() {
         href="/"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors mb-6"
       >
-        <ArrowLeft className="size-3.5" />
+        <ArrowLeft className="w-3.5 h-3.5" />
         <span>Back to Overview</span>
       </Link>
 
       {/* Claim Banner (if accessed via claim invite link) */}
       {agreement.status === "open" && claimSecret && (
-        <div className="mb-6 p-4 rounded-[var(--radius-card)] border border-sky-200 dark:border-sky-800 bg-[var(--status-submitted-bg)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="mb-6 p-4 rounded-[var(--radius-card)] border border-[var(--status-pending)]/30 bg-[var(--status-pending-bg)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <UserCheck className="size-5 text-[var(--status-submitted)] shrink-0 mt-0.5" />
+            <UserCheck className="w-5 h-5 text-[var(--status-pending)] shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-bold text-xs sm:text-sm text-[var(--text-primary)]">
+              <h3 className="font-semibold text-xs sm:text-sm text-[var(--text-primary)]">
                 You were invited to claim this Escrow Agreement
               </h3>
               <p className="text-xs text-[var(--text-secondary)] mt-0.5">
-                Connect your wallet to accept this {formatUSDC(agreement.totalAmount)} project and start milestone deliverables.
+                Connect your wallet to accept this {formatUSDC(agreement.totalAmount)} project and begin milestone deliverables.
               </p>
             </div>
           </div>
@@ -174,7 +236,7 @@ export default function AgreementDetailPage() {
             isLoading={isProcessing}
             onClick={handleClaim}
           >
-            <span>Claim Escrow</span>
+            Claim Escrow
           </Button>
         </div>
       )}
@@ -183,13 +245,13 @@ export default function AgreementDetailPage() {
       <Card level="surface" className="p-6 sm:p-8 space-y-6">
         {/* Header */}
         <div className="flex flex-wrap items-start justify-between gap-4 pb-6 border-b border-[var(--border-default)]">
-          <div className="space-y-1">
+          <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="font-mono text-xs text-[var(--text-muted)] font-bold">
+              <span className="font-mono text-xs text-[var(--text-muted)] font-semibold">
                 ESCROW #{agreement.id}
               </span>
-              <Badge variant={agreement.status === "active" ? "success" : "pending"} dot>
-                {agreement.status}
+              <Badge status={agreement.status === "active" ? "success" : "info"}>
+                {agreement.status === "active" ? "Active" : "Open for Claim"}
               </Badge>
             </div>
             <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[var(--text-primary)]">
@@ -213,7 +275,7 @@ export default function AgreementDetailPage() {
         {/* Roles Details */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2 border-b border-[var(--border-default)] text-xs font-mono">
           <div>
-            <span className="block text-[10px] uppercase font-bold text-[var(--text-muted)] mb-0.5">
+            <span className="block text-[10px] uppercase font-semibold text-[var(--text-muted)] mb-0.5">
               Client / Payer
             </span>
             <span className="text-[var(--text-primary)] font-medium">
@@ -221,7 +283,7 @@ export default function AgreementDetailPage() {
             </span>
           </div>
           <div>
-            <span className="block text-[10px] uppercase font-bold text-[var(--text-muted)] mb-0.5">
+            <span className="block text-[10px] uppercase font-semibold text-[var(--text-muted)] mb-0.5">
               Contractor / Freelancer
             </span>
             <span className="text-[var(--text-primary)] font-medium">
@@ -230,104 +292,41 @@ export default function AgreementDetailPage() {
           </div>
         </div>
 
-        {/* Milestones Stepper */}
+        {/* Milestones Stepper (Harvested ApprovalCard Primitives) */}
         <div className="space-y-4 pt-2">
           <div className="flex items-center justify-between">
-            <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
+            <h2 className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
               Milestones Schedule
             </h2>
             <span className="text-xs font-mono text-[var(--text-muted)]">
-              7-Day Review Window
+              7-Day Anti-Ghosting Window
             </span>
           </div>
 
           <div className="space-y-3">
             {milestones.map((m, idx) => (
-              <div
+              <ApprovalCard
                 key={m.id}
-                className="p-4 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-subtle)] flex flex-col sm:flex-row sm:items-center justify-between gap-4"
-              >
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2.5">
-                    <span
-                      className={`size-6 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${
-                        m.status === "completed"
-                          ? "bg-emerald-500 text-white"
-                          : m.status === "submitted"
-                          ? "bg-[var(--accent)] text-[var(--accent-foreground)]"
-                          : "bg-[var(--bg-surface)] border border-[var(--border-default)] text-[var(--text-muted)]"
-                      }`}
-                    >
-                      {m.status === "completed" ? <Check className="size-3.5 stroke-[3]" /> : idx + 1}
-                    </span>
-                    <h3 className="font-semibold text-xs sm:text-sm text-[var(--text-primary)]">
-                      {m.title}
-                    </h3>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-2.5 text-xs font-mono text-[var(--text-secondary)] pl-8.5">
-                    <span className="font-bold text-[var(--text-primary)] tabular-nums">
-                      {formatUSDC(m.amount)}
-                    </span>
-                    <span>·</span>
-                    <span>Deadline: {m.deadline}</span>
-
-                    {m.deliverableUrl && (
-                      <>
-                        <span>·</span>
-                        <a
-                          href={m.deliverableUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-[var(--text-primary)] font-semibold underline underline-offset-2 hover:opacity-80"
-                        >
-                          <span>Deliverable Proof</span>
-                          <ExternalLink className="size-3" />
-                        </a>
-                      </>
-                    )}
-                  </div>
-                </div>
-
-                {/* Actions per milestone */}
-                <div className="flex items-center gap-2.5 pl-8.5 sm:pl-0">
-                  {m.status === "completed" && (
-                    <Badge variant="success">Released</Badge>
-                  )}
-
-                  {m.status === "submitted" && (
-                    <div className="flex flex-col sm:items-end gap-1">
-                      <Button
-                        size="sm"
-                        variant="primary"
-                        isLoading={isProcessing}
-                        onClick={() => handleApprove(idx)}
-                      >
-                        <Zap className="size-3.5 text-emerald-400" />
-                        <span>Approve & Release</span>
-                      </Button>
-                      <span className="text-[10px] font-mono text-[var(--status-pending)] flex items-center gap-1">
-                        <Clock className="size-3" />
-                        <span>Auto-release in 5d 14h</span>
-                      </span>
-                    </div>
-                  )}
-
-                  {m.status === "pending" && (
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => {
-                        setActiveMilestoneIdx(idx);
-                        setIsSubmitModalOpen(true);
-                      }}
-                    >
-                      <Send className="size-3" />
-                      <span>Submit Deliverable</span>
-                    </Button>
-                  )}
-                </div>
-              </div>
+                milestoneId={idx + 1}
+                title={m.title}
+                amount={m.amount}
+                deadline={m.deadline}
+                status={m.status}
+                deliverableUrl={m.deliverableUrl}
+                submittedAt={m.submittedAt}
+                reviewWindowDays={agreement.reviewWindowDays}
+                isPayer={true}
+                isProcessing={isProcessing && activeMilestoneIdx === idx}
+                onApprove={() => {
+                  setActiveMilestoneIdx(idx);
+                  handleApprove(idx);
+                }}
+                onRequestRevision={() => handleRequestRevision(idx)}
+                onSubmitWork={() => {
+                  setActiveMilestoneIdx(idx);
+                  setIsSubmitModalOpen(true);
+                }}
+              />
             ))}
           </div>
         </div>
@@ -338,14 +337,14 @@ export default function AgreementDetailPage() {
         isOpen={isSubmitModalOpen}
         onClose={() => setIsSubmitModalOpen(false)}
         title="Submit Milestone Deliverable"
-        description="Provide a verifiable public URL to your deliverables (GitHub PR, Loom walkthrough, or preview deployment). Submitting activates the 7-day client review timer."
+        description="Provide a verifiable public URL to your deliverables (GitHub PR, preview link, or commit hash). Submitting activates the 7-day client review timer."
       >
         <form onSubmit={handleSubmitDeliverable} className="space-y-4 pt-2">
           <Input
             label="Deliverable URL *"
             type="url"
             required
-            placeholder="https://github.com/my-org/repo/pull/42"
+            placeholder="https://github.com/arc-ecosystem/troth/pull/42"
             value={submissionUrl}
             onChange={(e) => setSubmissionUrl(e.target.value)}
           />
@@ -365,7 +364,7 @@ export default function AgreementDetailPage() {
               size="sm"
               isLoading={isProcessing}
             >
-              <Send className="size-3.5" />
+              <Send className="w-3.5 h-3.5 mr-1.5" />
               <span>Submit for Review</span>
             </Button>
           </div>

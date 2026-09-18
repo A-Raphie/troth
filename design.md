@@ -2,66 +2,44 @@
 
 The single source of truth for Troth's frontend. Deviations update this file, not just the code.
 
-## Dual-Theme Strategy
+## Design Direction: High-Trust Minimalist Fintech
 
-Per user specification, Troth ships with **two distinct visual themes** built into the application with an instant toggle (`ThemeSwitcher`) so the user and judges can compare and choose:
-
-1. **Option A: High-Trust Minimalist Fintech** (Mercury / Stripe / Linear inspired)
-2. **Option B: Cyber-Terminal Dark Web3** (Arc L1 / Bloomberg / DevTools inspired)
-
----
-
-## Option A: High-Trust Minimalist Fintech
-
-### Feel
-**Institutional** — calm, hyper-clean, authoritative, effortless.
-
-### Audience
-Founders, Web3 native teams, institutional clients, and senior contractors who value clarity, legibility, and professional execution over flashy visual noise.
-
-### Visual Tokens (Fintech)
-- **Canvas:** Pure stark white (`#ffffff`) or light warm zinc (`#fbfbfa`) with crisp hairline borders (`#e5e5e0`).
-- **Typography:** Clean sans-serif (`Geist` / `Inter`) with strict tabular figures (`tabular-nums`) for currency amounts and timestamps.
-- **Color Palette:**
-  - Primary text: Rich deep charcoal (`#111110`)
-  - Secondary text: Muted graphite (`#666660`)
-  - Accent / Primary CTA: Obsidian black (`#09090b`) with white text, or deep Circle Blue (`#004ef5`)
-  - Success / Released: Subtle sage emerald (`#107548` on `#eef8f2`)
-  - Pending / Escrowed: Warm amber (`#b45309` on `#fef3c7`)
-- **Elevation:** Zero blurry drop-shadows; strictly razor hairline borders (`1px solid var(--border-color)`).
-
----
-
-## Option B: Cyber-Terminal Dark Web3
-
-### Feel
-**Algorithmic** — high-density, technical, sub-second telemetry, glowing precision.
-
-### Audience
-Crypto-native engineers, DeFi builders, and hackathon judges wanting to see the raw power of Arc's sub-second consensus and native USDC gas in real time.
-
-### Visual Tokens (Cyber-Terminal)
-- **Canvas:** Pitch obsidian (`#08090c`) with dark elevated surfaces (`#0f1117`) and fine slate gridlines (`rgba(255, 255, 255, 0.08)`).
-- **Typography:** Monospace headers and data feeds (`Geist Mono` / `JetBrains Mono`) with glowing status badges.
-- **Color Palette:**
-  - Primary text: Crisp cold white (`#f3f4f6`)
-  - Secondary text: Slate chrome (`#94a3b8`)
-  - Accent / Highlights: Arc Cyan (`#00f2fe`) & Electric Emerald (`#10b981`)
-  - Status Pills: Pulsing neon dots with subtle ambient glow (`0 0 12px rgba(16, 185, 129, 0.4)`)
-  - Telemetry Chip: Monospace block showing `FINALITY: 350ms | GAS: 0.0001 USDC | ARC-5042`.
-- **Elevation:** Layered glassmorphism with dark backdrop filters (`backdrop-blur-md bg-white/[0.03]`).
+Per user decision, Troth commits to **Option A: High-Trust Minimalist Fintech** (Mercury / Stripe / Linear inspired):
+* Calm, hyper-clean, authoritative, effortless.
+* Pure stark white canvas with crisp hairline borders (`border-zinc-200/80`).
+* Monochromatic palette: deep charcoal text, obsidian primary actions, sage emerald success badges, warm amber pending tags.
+* Tabular figures (`tabular-nums font-mono`) for transparent accounting and milestone amounts.
+* Zero distraction, zero fluff: focused on financial safety, verifiable deliverable hashes, and sub-second deterministic settlement.
 
 ---
 
 ## Shared UI Architecture
 
-### Harvest Manifest (Component Kit)
-All commodity UI primitives are imported or built upon standard, non-slop tokens:
-- **Wallet Connection Modal:** Standard `ConnectButton` from RainbowKit / AppKit adapted to current theme tokens.
-- **Milestone Stepper:** Horizontal & vertical responsive progress tracker with state badges (`Funded`, `Submitted`, `Under Review`, `Released`).
-- **Deliverable Inspector Drawer / Modal:** Modal showcasing proof of work (link preview, commit sha, timestamp).
-- **Auto-Release Countdown Clock:** Live animated countdown ticker displaying the remaining review window (e.g. `6d 23h 14m remaining until auto-release`).
-- **Theme Switcher:** Compact header pill toggle: `[ Theme: Minimalist | Terminal ]`.
+### Harvest Manifest
+- **Component: Button**
+  - Source: `https://beui.dev/r/button-base.json` & `https://beui.dev/components/motion/button.md`
+  - License: MIT
+  - Kit destination: `components/ui/Button.tsx` (spring press, hover lift, variants: primary/secondary/outline/ghost/destructive, loading spinner)
+- **Component: Animated Badge**
+  - Source: `https://beui.dev/r/animated-badge.json`
+  - License: MIT
+  - Kit destination: `components/ui/Badge.tsx` (status roll variants, loading pulse, compact typography)
+- **Component: Center Morph Modal**
+  - Source: `https://beui.dev/r/center-morph-modal.json` & `ui.shadcn.com`
+  - License: MIT
+  - Kit destination: `components/ui/Modal.tsx` (center unfold transition, focus trapping, Escape dismiss, portal backdrop)
+- **Component: Approval Card**
+  - Source: `https://beautifului.dev#approval-card`
+  - License: MIT
+  - Kit destination: `components/ui/ApprovalCard.tsx` (human-in-the-loop deliverable review, proof links, auto-release countdown, approve action)
+- **Component: Input**
+  - Source: `https://ui.shadcn.com`
+  - License: MIT
+  - Kit destination: `components/ui/Input.tsx` (accessible label/helper/error states, focus ring)
+- **Component: Card & StatCard**
+  - Source: `https://beui.dev/components/motion/tilt-card.md` & `https://reui.io/components`
+  - License: MIT
+  - Kit destination: `components/ui/Card.tsx` & `components/ui/StatCard.tsx` (elevation ladder, hairline borders)
 
 ### Copy Tone
 - **Tone:** Precise, direct, contract-grade. No fluff or marketing hyperbole.

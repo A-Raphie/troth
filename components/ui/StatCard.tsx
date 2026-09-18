@@ -1,4 +1,6 @@
 "use client";
+// Harvested from: https://reui.io/components & coss.com/ui
+// Re-expressed on semantic tokens
 
 import React from "react";
 import { cn } from "@/lib/utils";
@@ -26,7 +28,7 @@ export function StatCard({
       )}
     >
       <div className="flex items-center justify-between gap-2 mb-1.5">
-        <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)]">
+        <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] select-none">
           {label}
         </span>
         {indicator === "positive" && (
@@ -39,9 +41,7 @@ export function StatCard({
       </div>
 
       {subtext && (
-        <p className="text-xs text-[var(--text-secondary)] mt-1 font-medium">
-          {subtext}
-        </p>
+        <p className="mt-1 text-xs text-[var(--text-secondary)]">{subtext}</p>
       )}
     </div>
   );
