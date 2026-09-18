@@ -1,4 +1,4 @@
-# Troth 🛡️
+# Troth
 
 > **Trustless, multi-milestone escrow on the Arc Layer 1 blockchain.**  
 > Sub-second settlement. Native USDC gas. Zero platform rake.
@@ -12,7 +12,7 @@ Built for the **Arc Microgrants (Circle / DoraHacks)** — [dorahacks.io/hackath
 
 ---
 
-## 🔗 Live Deployments & Endpoints
+## Live Deployments & Endpoints
 
 | Resource | URL |
 | :--- | :--- |
@@ -23,7 +23,7 @@ Built for the **Arc Microgrants (Circle / DoraHacks)** — [dorahacks.io/hackath
 
 ---
 
-## 💡 The Problem & The Arc Thesis
+## The Problem & The Arc Thesis
 
 Freelancers and clients currently face a broken tradeoff:
 1. **Web2 Freelance Platforms (Upwork, Fiverr):** Take predatory 10%–20% rake fees, impose 7- to 14-day clearance delays, and maintain centralized power to arbitrarily freeze funds or grant chargebacks.
@@ -37,7 +37,7 @@ Troth is purpose-built for the **Arc Layer 1 network**:
 
 ---
 
-## 🎨 High-Trust Minimalist Fintech Design
+## High-Trust Minimalist Fintech Design
 
 Troth features a calm, institutional design language inspired by modern fintech infrastructure (Stripe, Mercury, Linear):
 * Monochromatic deep zinc palette with crisp contrast and hairline borders (`border-zinc-200/80`).
@@ -47,7 +47,7 @@ Troth features a calm, institutional design language inspired by modern fintech 
 
 ---
 
-## ⚡ Key Features
+## Key Features
 
 - **Multi-Milestone Escrow:** Break any agreement into 1 to $N$ discrete tranches with individual USDC payouts and deadlines.
 - **Dual Recipient Modes:**
@@ -59,7 +59,7 @@ Troth features a calm, institutional design language inspired by modern fintech 
 
 ---
 
-## 🧪 Smart Contract Verification (`TrothEscrow.sol`)
+## Smart Contract Verification (`TrothEscrow.sol`)
 
 All contract logic has been implemented with OpenZeppelin `IERC20` and `ReentrancyGuard` and verified with Foundry:
 
@@ -77,7 +77,7 @@ Suite result: ok. 7 passed; 0 failed; 0 skipped
 
 ---
 
-## 🛠️ Tech Stack & Architecture
+## Tech Stack & Architecture
 
 - **Blockchain:** Arc Mainnet (Chain ID `5042`, RPC `https://rpc.mainnet.arc.io`, Currency `USDC`)
 - **Smart Contracts:** Solidity `0.8.28`, Foundry, OpenZeppelin Contracts v5
@@ -87,7 +87,7 @@ Suite result: ok. 7 passed; 0 failed; 0 skipped
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Smart Contracts
 ```bash
@@ -104,5 +104,5 @@ Open [http://localhost:3000](http://localhost:3000) to view Troth.
 
 ---
 
-## 📜 License
+## License
 MIT License. Built with pride for the Arc & Circle ecosystem.
