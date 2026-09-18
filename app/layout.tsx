@@ -52,11 +52,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col antialiased bg-[var(--bg-base)] text-[var(--text-primary)]">
+    <html lang="en" suppressHydrationWarning className="overflow-x-hidden max-w-full">
+      <body className="min-h-screen flex flex-col antialiased bg-[var(--bg-base)] text-[var(--text-primary)] overflow-x-hidden max-w-full w-full">
         <Web3Provider>
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 w-full max-w-full overflow-x-hidden">{children}</main>
         </Web3Provider>
       </body>
     </html>

@@ -219,11 +219,11 @@ export default function HomePage() {
             </div>
 
             <div className="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-[var(--text-muted)] font-mono border-t border-[var(--border-default)]">
-              <span className="flex items-center gap-1.5">
-                <Clock className="size-3 text-[var(--text-secondary)] shrink-0" />
-                <span>7-day review window safeguards contractors against ghosting</span>
+              <span className="flex items-start sm:items-center gap-1.5 min-w-0 flex-1">
+                <Clock className="size-3 text-[var(--text-secondary)] shrink-0 mt-0.5 sm:mt-0" />
+                <span className="text-pretty break-words leading-tight">7-day review window prevents client ghosting</span>
               </span>
-              <div className="flex items-center gap-3 self-end sm:self-auto">
+              <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
                 <span>Settles in ~350ms</span>
                 {demoStep >= 3 && (
                   <button
