@@ -6,7 +6,7 @@
 [![Live App](https://img.shields.io/badge/Live%20App-trytroth.netlify.app-004ef5?style=flat-square)](https://trytroth.netlify.app)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-A--Raphie%2Ftroth-181717?style=flat-square&logo=github)](https://github.com/A-Raphie/troth)
 [![Network](https://img.shields.io/badge/Arc%20L1-5042-emerald?style=flat-square)](https://rpc.mainnet.arc.io)
-[![Foundry Tests](https://img.shields.io/badge/Foundry%20Tests-7%2F7%20Passing-success?style=flat-square)](https://github.com/A-Raphie/troth)
+[![Foundry Tests](https://img.shields.io/badge/Foundry%20Tests-11%2F11%20Passing-success?style=flat-square)](https://github.com/A-Raphie/troth)
 
 Built for the **Arc Microgrants (Circle / DoraHacks)** — [dorahacks.io/hackathon/arc-microgrants](https://dorahacks.io/hackathon/arc-microgrants).
 
@@ -17,6 +17,7 @@ Built for the **Arc Microgrants (Circle / DoraHacks)** — [dorahacks.io/hackath
 | Resource | URL |
 | :--- | :--- |
 | **Live Web App** | [https://trytroth.netlify.app](https://trytroth.netlify.app) |
+| **Arc Mainnet Contract** | [`0xF7A20db6E51171263856f282ed188f795206d649`](https://arc.etherscan.io/address/0xF7A20db6E51171263856f282ed188f795206d649) |
 | **GitHub Repository** | [https://github.com/A-Raphie/troth](https://github.com/A-Raphie/troth) |
 | **Arc Mainnet RPC** | `https://rpc.mainnet.arc.io` (Chain ID `5042`) |
 | **Arc Testnet RPC** | `https://rpc.testnet.arc.io` (Chain ID `5042002`) |
@@ -33,7 +34,7 @@ Freelancers and clients currently face a broken tradeoff:
 Troth is purpose-built for the **Arc Layer 1 network**:
 * **USDC As Native Gas:** All transaction fees are paid natively in USDC (~$0.0001 per transaction). Users and autonomous agents never touch a volatile token.
 * **Sub-Second Finality:** Powered by the Malachite BFT consensus engine, milestone releases settle deterministically in **~350 milliseconds**, making payments feel as fast as a Web2 credit card click with full cryptographic finality.
-* **Anti-Ghosting Safeguards:** Models the battle-tested Upwork/Fiverr 7-day review window directly in Solidity: if a client fails to review submitted work, the contractor can trigger an on-chain auto-release.
+* **Mutual Anti-Ghosting Safeguards:** Codifies battle-tested dual-timer protection directly in Solidity: contractors can auto-release funds if clients become unresponsive after work submission (review window), and clients can reclaim 100% of escrowed funds if contractors miss milestone delivery deadlines.
 
 ---
 
