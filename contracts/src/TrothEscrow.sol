@@ -135,9 +135,6 @@ contract TrothEscrow is ReentrancyGuard {
             total += _milestoneInputs[i].amount;
         }
 
-        // Pull total USDC into escrow
-        require(usdc.transferFrom(msg.sender, address(this), total), "USDC transfer failed");
-
         uint256 newId = ++agreementCount;
         Agreement storage ag = agreements[newId];
         ag.id = newId;
@@ -162,6 +159,10 @@ contract TrothEscrow is ReentrancyGuard {
         }
 
         emit AgreementCreated(newId, msg.sender, _contractor, total, _milestoneInputs.length, isInvite);
+
+        // Pull total USDC into escrow
+        require(usdc.transferFrom(msg.sender, address(this), total), "USDC transfer failed");
+
         return newId;
     }
 
@@ -228,8 +229,9 @@ contract TrothEscrow is ReentrancyGuard {
 
         _checkAllCompleted(_agreementId);
 
-        require(usdc.transfer(ag.contractor, m.amount), "USDC release failed");
         emit MilestoneApproved(_agreementId, _milestoneIndex, m.amount, ag.contractor);
+
+        require(usdc.transfer(ag.contractor, m.amount), "USDC release failed");
     }
 
     /**
@@ -249,8 +251,9 @@ contract TrothEscrow is ReentrancyGuard {
 
         _checkAllCompleted(_agreementId);
 
-        require(usdc.transfer(ag.contractor, m.amount), "Auto-release transfer failed");
         emit AutoReleaseTriggered(_agreementId, _milestoneIndex, m.amount, ag.contractor);
+
+        require(usdc.transfer(ag.contractor, m.amount), "Auto-release transfer failed");
     }
 
     /**
@@ -284,8 +287,9 @@ contract TrothEscrow is ReentrancyGuard {
         ag.status = AgreementStatus.Cancelled;
         ag.refundedAmount = refund;
 
-        require(usdc.transfer(ag.payer, refund), "Refund transfer failed");
         emit AgreementCancelled(_agreementId, refund);
+
+        require(usdc.transfer(ag.payer, refund), "Refund transfer failed");
     }
 
     /**
@@ -308,8 +312,9 @@ contract TrothEscrow is ReentrancyGuard {
             }
         }
 
-        require(usdc.transfer(ag.payer, unreleased), "Contractor refund failed");
         emit AgreementCancelled(_agreementId, unreleased);
+
+        require(usdc.transfer(ag.payer, unreleased), "Contractor refund failed");
     }
 
     /**
