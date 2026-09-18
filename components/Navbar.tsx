@@ -16,16 +16,16 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-[var(--border-default)] bg-[var(--bg-surface)]/95 backdrop-blur-sm">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Brand */}
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center gap-2.5 group select-none">
-            <div className="size-8 rounded-[var(--radius-input)] bg-[var(--accent)] text-[var(--accent-foreground)] flex items-center justify-center transition-transform group-hover:scale-105 shadow-xs">
-              <Shield className="size-4.5 stroke-[2.2]" />
+        <div className="flex items-center gap-4 sm:gap-8 min-w-0">
+          <Link href="/" className="flex items-center gap-2 group select-none shrink-0">
+            <div className="size-7 sm:size-8 rounded-[var(--radius-input)] bg-[var(--accent)] text-[var(--accent-foreground)] flex items-center justify-center transition-transform group-hover:scale-105 shadow-xs shrink-0">
+              <Shield className="size-4 sm:size-4.5 stroke-[2.2]" />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold tracking-tight text-base leading-none text-[var(--text-primary)]">
+              <span className="font-bold tracking-tight text-sm sm:text-base leading-none text-[var(--text-primary)]">
                 Troth
               </span>
-              <span className="text-[10px] tracking-wider text-[var(--text-muted)] uppercase mt-0.5">
+              <span className="text-[10px] tracking-wider text-[var(--text-muted)] uppercase mt-0.5 hidden sm:inline-block">
                 Milestone Escrow
               </span>
             </div>
@@ -50,11 +50,11 @@ export function Navbar() {
 
         {/* Action controls */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          {/* Network badge (Single source of network info in the header) */}
-          <div className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-mono text-[var(--text-secondary)]">
+          {/* Network badge */}
+          <div className="flex items-center gap-1.5 px-2 sm:px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-[11px] sm:text-xs font-mono text-[var(--text-secondary)] shrink-0">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
             <span className="hidden sm:inline">Arc Mainnet</span>
-            <span className="sm:hidden text-[11px]">Arc</span>
+            <span className="sm:hidden">Arc</span>
           </div>
 
           {/* Wallet connection */}
@@ -63,7 +63,7 @@ export function Navbar() {
               variant="outline"
               size="sm"
               onClick={() => disconnect()}
-              className="font-mono text-xs hover:border-red-400 hover:text-red-500 px-2.5 sm:px-3"
+              className="font-mono text-xs hover:border-red-400 hover:text-red-500 px-2 sm:px-3 shrink-0"
               title="Click to disconnect"
             >
               <span className="size-2 rounded-full bg-emerald-500 mr-1 sm:mr-1.5 shrink-0" />
@@ -73,7 +73,7 @@ export function Navbar() {
             <Button
               variant="primary"
               size="sm"
-              className="px-2.5 sm:px-3"
+              className="px-2.5 sm:px-3 text-xs shrink-0"
               onClick={() => {
                 const injectedConnector = connectors.find((c) => c.id === "injected");
                 if (injectedConnector) {
@@ -81,9 +81,9 @@ export function Navbar() {
                 }
               }}
             >
-              <Wallet className="size-3.5 shrink-0" />
-              <span className="hidden xs:inline">Connect Wallet</span>
-              <span className="xs:hidden">Connect</span>
+              <Wallet className="size-3.5 shrink-0 sm:mr-1" />
+              <span className="hidden sm:inline">Connect Wallet</span>
+              <span className="sm:hidden">Connect</span>
             </Button>
           )}
         </div>

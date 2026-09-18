@@ -51,12 +51,13 @@ export default function HomePage() {
         {/* Hero */}
         <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 pb-8 text-center">
           {/* Eyebrow Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-mono text-[var(--text-secondary)] mb-6">
-            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Arc Layer 1 · Native USDC Gas · 0% Platform Rake</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-[11px] sm:text-xs font-mono text-[var(--text-secondary)] mb-6 max-w-full">
+            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+            <span className="hidden sm:inline">Arc Layer 1 · Native USDC Gas · 0% Platform Rake</span>
+            <span className="sm:hidden">Arc L1 · Native USDC Gas · 0% Fee</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] text-balance leading-tight sm:leading-tight">
+          <h1 className="text-2xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] leading-tight text-balance">
             Trustless milestone escrow on Arc.
           </h1>
 
