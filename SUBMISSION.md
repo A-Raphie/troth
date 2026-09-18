@@ -50,8 +50,8 @@ Arc provides native USDC gas (~$0.0001 per transaction) and instant deterministi
   - **Direct Address:** Fund an agreement bound directly to a contractor's Arc address.
   - **Claimable Invite Links:** Fund an agreement using a cryptographic hash (`claimHash`); the contractor clicks the link and claims the agreement directly into their wallet without prior coordination.
 - **Instant Payout Release:** When a milestone deliverable is approved by the client, funds disburse to the contractor's wallet in ~350ms.
-- **Anti-Ghosting Protection:** An automated 7-day auto-release window ensures contractors are not trapped if a client abandons the project after work is delivered.
-- **Mutual Refund & Safety:** Clients can cancel unclaimed invite escrows with 100% capital return, and contractors can voluntarily trigger refunds if unable to fulfill a milestone.
+- **Mutual Anti-Ghosting Safeguards:** Battle-tested dual-timer architecture protects both parties: contractors can auto-release funds after the review window (e.g. 7 days) if a client goes unresponsive, and clients can reclaim a 100% refund of locked funds if a contractor misses milestone delivery deadlines.
+- **Deterministic Safety Hatches:** Clients can reclaim expired milestones if deadlines lapse or cancel unclaimed invite links for an immediate 100% refund; contractors can voluntarily trigger refunds if unable to fulfill a milestone.
 
 ---
 

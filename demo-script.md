@@ -15,7 +15,7 @@
 | **Scene 2: Creating the Escrow** | 0:18 – 0:42 (24s) | Create wizard (`/create`), milestone tranches, claim invite link | Product UX & Innovation |
 | **Scene 3: Contractor Submission** | 0:42 – 1:02 (20s) | Milestone manager (`/agreement/104`), deliverable inspection | Technical Execution |
 | **Scene 4: Instant Arc Settlement** | 1:02 – 1:20 (18s) | Approval click, sub-second BFT release, 7-day safety timer | Arc Ecosystem & Native Gas |
-| **Scene 5: Proof & Outro** | 1:20 – 1:30 (10s) | Contract tests (7/7 passing), Netlify live link, GitHub repo | Verification & Open Source |
+| **Scene 5: Proof & Outro** | 1:20 – 1:30 (10s) | Contract tests (11/11 passing), Netlify live link, GitHub repo | Verification & Open Source |
 
 ---
 
@@ -57,7 +57,7 @@ Navigate to `/agreement/104`. Show the milestone card with live status badges. C
 **Say:**  
 > The agreement dashboard provides complete visibility for both sides.  
 > The contractor submits proof of work with one click.  
-> Troth initiates an automated seven-day review countdown. If the client abandons the project, funds auto-release to protect the worker against ghosting.
+> Troth initiates automated mutual safeguards: an auto-release countdown protects the worker against client ghosting, while delivery deadlines ensure clients can reclaim funds if work is abandoned.
 
 ---
 
@@ -76,7 +76,7 @@ Switch to payer perspective. The deliverable inspection card highlights the subm
 ## Scene 5: Verification & Links (1:20 – 1:30)
 
 **Visual:**  
-Display the clean terminal showing **"7 passed; 0 failed; 0 skipped"** from Foundry `forge test`, followed by the live Netlify application and the public GitHub repository page.
+Display the clean terminal showing **"11 passed; 0 failed; 0 skipped"** from Foundry `forge test`, followed by the live Netlify application and the public GitHub repository page.
 
 **Say:**  
 > Troth is fully tested, open source on GitHub, and live right now at trytroth.netlify.app.  

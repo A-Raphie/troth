@@ -4,6 +4,7 @@ Running log of decisions, conventions, and architectural trade-offs. Newest at t
 
 ## Decisions
 
+- **2026-09-18** — **Mutual Anti-Ghosting & Deadline Safeguards:** Upgraded smart contracts (`claimDeadlineRefund`) and test suite (11/11 pass) to provide symmetric two-way protection. If the client ghosts, the contractor auto-releases funds after the review window; if the contractor abandons work or misses the deadline without submitting, the client reclaims a 100% refund of the locked tranche.
 - **2026-09-18** — **Single Fintech Design Direction:** Removed second terminal theme and theme toggle; standardized entire product on the High-Trust Minimalist Fintech aesthetic (Mercury/Stripe).
 - **2026-09-18** — **Realistic Micropayment Amounts:** Scaled mock/simulator numbers from \$1,500 down to realistic \$5 – \$10 tranches (\$25 total), demonstrating Arc's sub-cent gas efficiency on micro-gigs.
 - **2026-09-18** — **Landing Page Streamlining:** Removed repetitive metric callouts in favor of a concise 3-step "How It Works" workflow (Lock → Deliver → Release).

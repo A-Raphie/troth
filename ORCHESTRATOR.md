@@ -1,14 +1,14 @@
 # Troth — Hackathon Orchestrator Ledger
-Event: Arc Microgrants (Circle / DoraHacks: https://dorahacks.io/hackathon/arc-microgrants) · Deadline: 2026-10-14 · Current stage: Stage 3 (Build) · Updated: 2026-09-18
+Event: Arc Microgrants (Circle / DoraHacks: https://dorahacks.io/hackathon/arc-microgrants) · Deadline: 2026-10-14 · Current stage: Stage 5 (Submission Ready) · Updated: 2026-09-18
 
 ## Sweeps
 | Stage | Entered | Exited | Notes |
 |---|---|---|---|
-| Stage 0 Calibrate | 2026-09-18 | 2026-09-18 | DoraHacks requirements parsed; \$10k pool, 20 slots of \$500 USDC |
+| Stage 0 Calibrate | 2026-09-18 | 2026-09-18 | DoraHacks requirements parsed; $10k pool, 20 slots of $500 USDC |
 | Stage 1 Idea | 2026-09-18 | 2026-09-18 | Arc primitives gap analysis -> Troth (milestone escrow) chosen |
 | Stage 2 Plan+Design | 2026-09-18 | 2026-09-18 | PRD, Architecture, design.md (Single Minimalist Fintech), Tasks, Memory, Handoff scaffolded |
-| Stage 3 Build | 2026-09-18 | 2026-09-18 | Phase 0 foundations, Phase 1 contracts/tests (7/7 pass), Phase 2 UI complete |
-| Stage 4 Verify/Polish | 2026-09-18 | [in progress] | Deslopped landing page, realistic $5-$10 figures, SVG favicon |
+| Stage 3 Build | 2026-09-18 | 2026-09-18 | Phase 0 foundations, Phase 1 contracts/tests (11/11 pass), Phase 2 UI complete |
+| Stage 4 Verify/Polish | 2026-09-18 | 2026-09-18 | Broadcasted to Arc Mainnet (0xF7A2...d649), Netlify live, mutual safeguards verified |
 
 ## Skill ledger
 | Skill | Stage | State | Note (reason / revisit trigger / result) |
@@ -30,5 +30,6 @@ Event: Arc Microgrants (Circle / DoraHacks: https://dorahacks.io/hackathon/arc-m
 | `submission` | 6 | ⏸ deferred | DoraHacks submission form generator |
 
 ## Stage gate
-- [x] Exit sweep done (Stages 0, 1, 2)
-- [ ] Next stage's entry sweep queued: Stage 3 Build active
+- [x] Exit sweep done (Stages 0, 1, 2, 3, 4)
+- [x] Production deploy live on Netlify & Arc Mainnet contract active
+- [ ] Submission packet review on DoraHacks portal

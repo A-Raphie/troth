@@ -125,17 +125,17 @@ struct Agreement {
 5. `triggerAutoRelease(uint256 _agreementId, uint256 _milestoneIndex)`: Contractor triggers release if `block.timestamp >= submittedAt + reviewWindow` and payer has taken no action.
 6. `cancelUnclaimed(uint256 _agreementId)`: If agreement was created with a claim link and never claimed, payer can reclaim 100% of funds.
 7. `contractorRefund(uint256 _agreementId)`: Contractor can unilaterally refund unreleased funds to payer.
-8. `mutualCancel(uint256 _agreementId)`: Payer and contractor sign to refund remaining unreleased balance.
+8. `claimDeadlineRefund(uint256 _agreementId, uint256 _milestoneIndex)`: Payer reclaims 100% of a milestone tranche if the delivery deadline has passed (`block.timestamp >= deadline`) and no deliverable has been submitted.
 
 ## Tech Stack
 
 | Layer | Choice | Why |
 |---|---|---|
 | **L1 Network** | Arc Mainnet | Native USDC gas, predictable costs, sub-second finality (~350ms), Circle alignment. |
-| **Smart Contract** | Solidity 0.8.24 + Foundry / Hardhat | EVM compatibility, secure reentrancy guards, standard testing harnesses. |
-| **Frontend Framework** | Next.js 15 (App Router) + TypeScript | Fast serverless rendering, clean routing, easy static export. |
+| **Smart Contract** | Solidity 0.8.28 + Foundry | EVM compatibility, secure reentrancy guards, 11/11 automated unit tests. |
+| **Frontend Framework** | Next.js 16 (App Router) + TypeScript | Fast serverless rendering, clean routing, easy static export. |
 | **Web3 Client** | `wagmi` v2 + `viem` | Lightweight, performant, native support for custom EVM chains and Arc RPC. |
-| **Styling & UI** | Tailwind CSS + Lucide Icons | Rapid token-driven layout; enables clean dual-theme toggle. |
+| **Styling & UI** | Tailwind CSS v4 + Lucide Icons | Rapid token-driven layout; High-Trust Minimalist Fintech aesthetic. |
 | **Hosting** | Netlify (Static Prebuilt) | Free, static-hostable rule compliant (no always-on backend daemons required). |
 
 ## Key Decisions & Trade-offs
@@ -147,9 +147,11 @@ struct Agreement {
 2. **Dual Recipient Logic (Direct vs Claim Link):**
    - *Decision:* Support both direct address input and secret-hash claim links.
    - *Why:* Matches user preference and enables frictionless client onboarding where the freelancer doesn't even need to share a wallet address before the contract is created.
-3. **Web2-Style Auto-Release Window:**
-   - *Decision:* Implement an automatic release countdown after submission ($N$ days).
-   - *Why:* Prevents the single largest failure mode in Web3 freelancing: client approving work off-band but disappearing without signing the transaction.
+3. **Mutual Anti-Ghosting & Deadline Protection:**
+   - *Decision:* Implement dual-timer safeguards for both counterparty directions:
+     - *Contractor protection:* Automatic release countdown ($N$ days after deliverable submission) if the client ghosts.
+     - *Client protection:* Automatic deadline expiration refund if the contractor abandons work or fails to submit before the deadline.
+   - *Why:* Prevents counterparty risk from transferring between parties, guaranteeing deterministic escrow resolution.
 
 ## Open Architectural Questions
 
