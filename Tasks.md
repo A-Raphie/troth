@@ -3,28 +3,28 @@
 Legend: `[ ]` not started · `[~]` in progress · `[x]` done
 
 ## Phase 0 — Foundations (Maker Block 1)
-- [ ] Initialize Next.js project with Tailwind CSS, TypeScript, and Lucide icons in `/troth` — done when `npm run build` succeeds cleanly.
-- [ ] Scaffold Foundry / Hardhat workspace for `TrothEscrow.sol` with OpenZeppelin `ReentrancyGuard` and `IERC20` interfaces — done when contract compiles.
-- [ ] Configure Arc Mainnet & Testnet network definitions in `wagmi` config (Chain ID 5042, RPC `https://rpc.mainnet.arc.io`, Currency USDC) — done when wallet connects and displays Arc network.
+- [x] Initialize Next.js project with Tailwind CSS, TypeScript, and Lucide icons in `/troth` — done when `npm run build` succeeds cleanly.
+- [x] Scaffold Foundry / Hardhat workspace for `TrothEscrow.sol` with OpenZeppelin `ReentrancyGuard` and `IERC20` interfaces — done when contract compiles.
+- [x] Configure Arc Mainnet & Testnet network definitions in `wagmi` config (Chain ID 5042, RPC `https://rpc.mainnet.arc.io`, Currency USDC) — done when wallet connects and displays Arc network.
 
 ## Phase 1 — Smart Contract MVP & Tests (Maker Block 2)
-- [ ] Write `TrothEscrow.sol` core logic:
+- [x] Write `TrothEscrow.sol` core logic:
   - Multi-milestone creation with USDC deposit.
   - Recipient binding: Direct address or invite link claim secret (`claimAgreement`).
   - Milestone lifecycle: `submitMilestone` with deliverable URI.
   - Release mechanism: `approveMilestone` releasing USDC to contractor immediately.
   - Auto-release timeout: `triggerAutoRelease` checking `block.timestamp >= submittedAt + reviewWindow`.
   - Refund & Cancellation: `cancelUnclaimed` and `contractorRefund`.
-- [ ] Write unit tests for all contract flows (100% test pass for creation, claim, submission, approval, auto-release, and refund edge cases).
+- [x] Write unit tests for all contract flows (100% test pass for creation, claim, submission, approval, auto-release, and refund edge cases).
 
 ## Phase 2 — Web Frontend & Dual-Theme System (Maker Block 3)
-- [ ] Implement `ThemeContext` and theme toggle in header:
+- [x] Implement `ThemeContext` and theme toggle in header:
   - **Option A (High-Trust Minimalist Fintech):** Crisp white/zinc, hairline borders, tabular figures.
   - **Option B (Cyber-Terminal Dark Web3):** Obsidian canvas, glowing cyan/emerald telemetry pills, monospace chips.
-- [ ] Build **Create Escrow Page (`/create`)**:
+- [x] Build **Create Escrow Page (`/create`)**:
   - Title, milestone builder (dynamic add/remove milestones with amounts & dates), recipient toggle (Direct Address vs Claim Link).
   - USDC token approval + contract call transaction orchestration.
-- [ ] Build **Agreement Detail & Dashboard (`/agreement/[id]`)**:
+- [x] Build **Agreement Detail & Dashboard (`/agreement/[id]`)**:
   - Payer View: Review submitted proofs, Approve & Release button, transaction feedback.
   - Contractor View: Submit work modal (URL + notes), live review window countdown ticker, Auto-Release button when expired.
   - Claim Page for invite links (`/agreement/[id]?claim=SECRET`): One-click wallet binding.
