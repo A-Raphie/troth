@@ -101,7 +101,7 @@ export default function HomePage() {
 
             <div className="bg-[var(--bg-surface)] p-3.5 sm:p-4">
               <span className="block text-[11px] font-mono uppercase text-[var(--text-muted)]">Smart Contracts</span>
-              <span className="text-lg sm:text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">7 / 7 Pass</span>
+              <span className="text-lg sm:text-xl font-bold font-mono text-emerald-600 dark:text-emerald-400 tabular-nums">11 / 11 Pass</span>
               <span className="block text-[10px] text-[var(--text-secondary)] mt-0.5">Foundry unit tested</span>
             </div>
           </div>
@@ -221,7 +221,7 @@ export default function HomePage() {
             <div className="pt-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-[var(--text-muted)] font-mono border-t border-[var(--border-default)]">
               <span className="flex items-start sm:items-center gap-1.5 min-w-0 flex-1">
                 <Clock className="size-3 text-[var(--text-secondary)] shrink-0 mt-0.5 sm:mt-0" />
-                <span className="text-pretty break-words leading-tight">7-day review window prevents client ghosting</span>
+                <span className="text-pretty break-words leading-tight">Mutual safeguards: review window & deadline refund</span>
               </span>
               <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto shrink-0 pt-1 sm:pt-0">
                 <span>Settles in ~350ms</span>
@@ -327,7 +327,7 @@ export default function HomePage() {
                 </li>
                 <li className="flex items-start gap-1.5">
                   <span className="text-emerald-500 font-bold shrink-0">✓</span>
-                  <span>Built-in 7-day anti-ghosting auto-release protection</span>
+                  <span><strong>Mutual anti-ghosting</strong>: auto-release & deadline refund</span>
                 </li>
               </ul>
             </div>
@@ -357,7 +357,7 @@ export default function HomePage() {
               </div>
               <h3 className="font-bold text-sm text-[var(--text-primary)]">2. Deliver & Prove</h3>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Contractor claims agreement and attaches deliverable proof (PR, live demo URL, or commit hash). The 7-day review clock begins.
+                Contractor claims agreement and attaches deliverable proof (PR, live demo URL, or commit hash). The configurable review clock begins.
               </p>
             </div>
 
@@ -367,7 +367,7 @@ export default function HomePage() {
               </div>
               <h3 className="font-bold text-sm text-[var(--text-primary)]">3. Sub-Second Release</h3>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                Payer approves in 1 click releasing USDC in ~350ms. If the payer goes inactive for 7 days, funds auto-release to protect the worker.
+                Payer approves in 1 click releasing USDC in ~350ms. Dual safeguards protect both: auto-release on client inactivity, and 100% refund if deadline lapses.
               </p>
             </div>
           </div>
@@ -421,7 +421,7 @@ export default function HomePage() {
                 <h3 className="font-semibold text-xs text-[var(--text-primary)]">100% Foundry Unit Tests</h3>
               </div>
               <p className="text-xs text-[var(--text-secondary)] leading-relaxed">
-                7/7 test suites passing covering creation, claims, submissions, approvals, auto-releases, and edge-case reverts.
+                11/11 test suites passing covering creation, claims, submissions, approvals, auto-releases, and deadline refunds.
               </p>
             </div>
           </div>
@@ -444,7 +444,17 @@ export default function HomePage() {
               rel="noopener noreferrer"
               className="hover:text-[var(--text-primary)] inline-flex items-center gap-1 underline transition-colors"
             >
-              <span>Foundry Test Suite (7/7 Pass)</span>
+              <span>Foundry Test Suite (11/11 Pass)</span>
+              <ExternalLink className="size-3" />
+            </a>
+            <span>·</span>
+            <a
+              href="https://arc.etherscan.io/address/0xF7A20db6E51171263856f282ed188f795206d649"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--text-primary)] inline-flex items-center gap-1 underline transition-colors"
+            >
+              <span>Contract (0xF7A2...d649)</span>
               <ExternalLink className="size-3" />
             </a>
             <span>·</span>
@@ -469,8 +479,8 @@ export default function HomePage() {
           <div className="space-y-3">
             {[
               {
-                q: "What protects contractors from client ghosting?",
-                a: "When a contractor submits proof of work, Troth starts an immutable 7-day review window. If the client fails to review or request revisions within 7 days, the contractor can trigger the auto-release function directly on-chain to unlock the milestone payment.",
+                q: "What protects parties from ghosting or abandonment?",
+                a: "Troth provides mutual anti-ghosting safeguards: when a contractor submits work, an immutable review window begins. If the client goes inactive, the contractor can trigger auto-release directly on-chain. Conversely, if a contractor abandons work and misses the milestone deadline, the client can reclaim a 100% refund of the locked tranche.",
               },
               {
                 q: "Do I need ETH or SOL to pay for gas?",
@@ -482,7 +492,7 @@ export default function HomePage() {
               },
               {
                 q: "What happens if work cannot be completed or a dispute occurs?",
-                a: "Troth includes mutual release mechanisms: contractors can voluntarily return unreleased milestone tranches directly to the payer, and payers can cancel unclaimed invite links for a 100% refund of locked funds.",
+                a: "Troth provides three built-in deterministic safety hatches: (1) clients can reclaim expired milestones if deadlines lapse, (2) contractors can voluntarily return unreleased tranches to the payer, and (3) payers can cancel unclaimed invite links for an immediate 100% refund.",
               },
             ].map((faq, index) => (
               <div
@@ -548,6 +558,16 @@ export default function HomePage() {
             <span className="font-semibold text-[var(--text-primary)]">Troth</span>
             <span>·</span>
             <span>Arc Mainnet (5042)</span>
+            <span>·</span>
+            <a
+              href="https://arc.etherscan.io/address/0xF7A20db6E51171263856f282ed188f795206d649"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[var(--text-primary)] underline transition-colors inline-flex items-center gap-0.5"
+            >
+              <span>0xF7A2...d649</span>
+              <ExternalLink className="size-2.5" />
+            </a>
             <span>·</span>
             <span>Open Source (MIT)</span>
           </div>
