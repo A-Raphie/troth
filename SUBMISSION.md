@@ -13,6 +13,8 @@
 | :--- | :--- |
 | **Live Web App** | [https://trytroth.netlify.app](https://trytroth.netlify.app) |
 | **Public GitHub Repo** | [https://github.com/A-Raphie/troth](https://github.com/A-Raphie/troth) |
+| **Arc Mainnet Contract** | [`0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab`](https://arc.etherscan.io/address/0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab) |
+| **Deployment Tx** | [`0xf568f17f...3b288`](https://arc.etherscan.io/tx/0xf568f17f1487287b27ca0561a5e7e4390a4baeb370db6814de5e83e024c3b288) |
 | **Foundry Test Suite** | 7/7 Tests Passing (`contracts/test/TrothEscrow.t.sol`) |
 | **Arc Mainnet RPC** | `https://rpc.mainnet.arc.io` (Chain ID `5042`) |
 | **Arc Testnet RPC** | `https://rpc.testnet.arc.io` (Chain ID `5042002`) |

@@ -41,8 +41,7 @@ export default function CreateAgreementPage() {
   const [reviewWindowDays, setReviewWindowDays] = useState<number>(7);
 
   const [milestones, setMilestones] = useState<MilestoneFormItem[]>([
-    { id: "1", title: "Milestone 1: Smart Contracts & Tests", amount: "10", days: 7 },
-    { id: "2", title: "Milestone 2: Frontend & Deployment", amount: "15", days: 14 },
+    { id: "1", title: "", amount: "", days: 7 },
   ]);
 
   const [claimSecret, setClaimSecret] = useState<string>(() => {
@@ -61,7 +60,7 @@ export default function CreateAgreementPage() {
     const nextId = (milestones.length + 1).toString();
     setMilestones((prev) => [
       ...prev,
-      { id: nextId, title: `Milestone ${nextId}: `, amount: "5", days: 7 },
+      { id: nextId, title: "", amount: "", days: 7 },
     ]);
   };
 
@@ -381,9 +380,9 @@ export default function CreateAgreementPage() {
                   onChange={(e) => setReviewWindowDays(Number(e.target.value))}
                   className="px-3 py-1.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs font-medium text-[var(--text-primary)] cursor-pointer"
                 >
-                  <option value={1}>24 Hours (Fast demo)</option>
-                  <option value={3}>3 Days (Fiverr standard)</option>
-                  <option value={7}>7 Days (Upwork default)</option>
+                  <option value={1}>24 Hours (Fast)</option>
+                  <option value={3}>3 Days (Standard)</option>
+                  <option value={7}>7 Days (Default)</option>
                   <option value={14}>14 Days (Extended)</option>
                 </select>
               </div>

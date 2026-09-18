@@ -57,6 +57,13 @@ Troth features a calm, institutional design language inspired by modern fintech 
 - **Mutual & Unclaimed Cancellation:** Clients can cancel unclaimed invite escrows for a 100% refund; contractors can refund unreleased tranches if unable to finish.
 - **Zero Platform Rake:** 100% peer-to-peer smart contract escrow.
 
+## Arc Mainnet Deployment
+
+- **Contract Address:** [`0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab`](https://arc.etherscan.io/address/0xF8c7CB7845c8DAcE9146d57a17DEe436b13Ecbab)
+- **Deployment Transaction:** [`0xf568f17f...3b288`](https://arc.etherscan.io/tx/0xf568f17f1487287b27ca0561a5e7e4390a4baeb370db6814de5e83e024c3b288)
+- **Chain ID:** `5042` (Arc Mainnet)
+- **Native Gas Token:** `USDC`
+
 ---
 
 ## Smart Contract Verification (`TrothEscrow.sol`)
