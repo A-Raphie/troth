@@ -7,7 +7,7 @@
 
 ---
 
-## 🔗 Quick Links
+## Quick Links
 
 | Surface | Link |
 | :--- | :--- |
