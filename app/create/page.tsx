@@ -2,26 +2,23 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useAccount, useWriteContract } from "wagmi";
-import { keccak256, stringToBytes } from "viem";
-import { useTheme } from "@/context/ThemeContext";
-import { TROTH_ESCROW_ADDRESS, TROTH_ESCROW_ABI, USDC_ADDRESS, ERC20_ABI } from "@/lib/contract";
+import { useAccount } from "wagmi";
 import {
   ShieldCheck,
   Plus,
   Trash2,
-  Calendar,
-  DollarSign,
-  Link as LinkIcon,
-  Wallet,
   ArrowLeft,
   Clock,
-  Sparkles,
   CheckCircle2,
   Copy,
   ExternalLink,
+  Info,
 } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
+import { formatUSDC } from "@/lib/utils";
 
 interface MilestoneFormItem {
   id: string;
@@ -31,10 +28,7 @@ interface MilestoneFormItem {
 }
 
 export default function CreateAgreementPage() {
-  const router = useRouter();
-  const { theme } = useTheme();
   const { address, isConnected } = useAccount();
-  const isTerminal = theme === "terminal";
 
   // Form State
   const [title, setTitle] = useState("");
@@ -44,14 +38,13 @@ export default function CreateAgreementPage() {
   const [reviewWindowDays, setReviewWindowDays] = useState<number>(7);
 
   const [milestones, setMilestones] = useState<MilestoneFormItem[]>([
-    { id: "1", title: "Milestone 1: Project Setup & Architecture", amount: "500", days: 7 },
-    { id: "2", title: "Milestone 2: Final Delivery & Deployment", amount: "1000", days: 14 },
+    { id: "1", title: "Milestone 1: Smart Contracts & Gas Abstraction", amount: "500", days: 7 },
+    { id: "2", title: "Milestone 2: Frontend & Deployment", amount: "1000", days: 14 },
   ]);
 
   const [claimSecret, setClaimSecret] = useState<string>(() => {
-    // Generate secure random secret for shareable link
     return typeof window !== "undefined"
-      ? "troth_" + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+      ? "troth_" + Math.random().toString(36).substring(2, 12)
       : "troth_secret";
   });
 
@@ -59,7 +52,6 @@ export default function CreateAgreementPage() {
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
 
-  // Calculations
   const totalAmount = milestones.reduce((sum, m) => sum + (parseFloat(m.amount) || 0), 0);
 
   const handleAddMilestone = () => {
@@ -82,7 +74,7 @@ export default function CreateAgreementPage() {
   };
 
   const handleCopyLink = () => {
-    const shareableUrl = `${window.location.origin}/agreement/${createdAgreementId || 1}?claim=${claimSecret}`;
+    const shareableUrl = `${window.location.origin}/agreement/${createdAgreementId || 105}?claim=${claimSecret}`;
     navigator.clipboard.writeText(shareableUrl);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -93,192 +85,134 @@ export default function CreateAgreementPage() {
     if (!title.trim() || milestones.length === 0) return;
 
     setIsSubmitting(true);
-
-    try {
-      // For instant simulation & demonstration
-      setTimeout(() => {
-        setIsSubmitting(false);
-        setCreatedAgreementId(Math.floor(Math.random() * 900) + 100);
-      }, 500);
-    } catch (err) {
-      console.error("Creation failed", err);
+    setTimeout(() => {
       setIsSubmitting(false);
-    }
+      setCreatedAgreementId(Math.floor(Math.random() * 900) + 100);
+    }, 450);
   };
 
   return (
-    <div className={`max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 ${isTerminal ? "terminal-grid" : ""}`}>
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Back button */}
       <Link
         href="/"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold mb-6 hover:opacity-80 transition-opacity"
-        style={{ color: "var(--text-secondary)" }}
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors mb-6"
       >
-        <ArrowLeft className="w-4 h-4" />
+        <ArrowLeft className="size-3.5" />
         <span>Back to Overview</span>
       </Link>
 
-      <div
-        className="rounded-2xl border p-6 sm:p-8 shadow-sm transition-all"
-        style={{
-          backgroundColor: "var(--bg-secondary)",
-          borderColor: "var(--border-strong)",
-        }}
-      >
-        <div className="border-b pb-6 mb-8" style={{ borderColor: "var(--border-subtle)" }}>
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">
-            <ShieldCheck className="w-4 h-4" />
-            <span>New Escrow Agreement</span>
+      <Card level="surface" className="p-6 sm:p-8">
+        <div className="border-b border-[var(--border-default)] pb-6 mb-8">
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-1">
+            <ShieldCheck className="size-4 text-[var(--accent)]" />
+            <span>Escrow Creator</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold mt-1" style={{ color: "var(--text-primary)" }}>
-            Lock Funds in Trustless Milestones
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">
+            Create Milestone Agreement
           </h1>
-          <p className="text-sm mt-1" style={{ color: "var(--text-secondary)" }}>
-            Define the project deliverables and lock USDC on Arc Mainnet. Funds only release when you approve each tranche.
+          <p className="text-xs sm:text-sm text-[var(--text-secondary)] mt-1">
+            Lock funds in trustless escrow on Arc Mainnet. Releases are approved per milestone with sub-second finality.
           </p>
         </div>
 
         {createdAgreementId ? (
           /* Confirmation State */
           <div className="py-8 text-center space-y-6">
-            <div className="w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-10 h-10" />
+            <div className="size-14 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="size-8" />
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold" style={{ color: "var(--text-primary)" }}>
-                Escrow #{createdAgreementId} Created!
+              <h2 className="text-xl font-bold text-[var(--text-primary)]">
+                Escrow Agreement #{createdAgreementId} Created
               </h2>
-              <p className="text-sm mt-1 font-mono" style={{ color: "var(--text-secondary)" }}>
-                {totalAmount.toFixed(2)} USDC locked on Arc Mainnet
+              <p className="text-sm font-mono text-[var(--text-secondary)] mt-1 tabular-nums">
+                {formatUSDC(totalAmount)} locked in escrow contract on Arc Mainnet
               </p>
             </div>
 
-            {recipientType === "invite" ? (
-              <div
-                className="max-w-md mx-auto p-4 rounded-xl border text-left space-y-2"
-                style={{
-                  backgroundColor: "var(--bg-primary)",
-                  borderColor: "var(--border-strong)",
-                }}
-              >
-                <span className="text-xs font-bold uppercase" style={{ color: "var(--text-muted)" }}>
-                  Shareable Claim Link
+            {recipientType === "invite" && (
+              <div className="max-w-md mx-auto p-4 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-subtle)] text-left space-y-2">
+                <span className="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] block">
+                  Shareable Invite Link
                 </span>
-                <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                  Send this link to your contractor. They will connect their wallet to claim the escrow:
+                <p className="text-xs text-[var(--text-secondary)]">
+                  Provide this link to the freelancer. When they connect their wallet, the contract will bind them as the recipient:
                 </p>
                 <div className="flex items-center gap-2 pt-1">
                   <input
                     type="text"
                     readOnly
                     value={`${typeof window !== "undefined" ? window.location.origin : ""}/agreement/${createdAgreementId}?claim=${claimSecret}`}
-                    className="flex-1 px-3 py-1.5 rounded-lg border text-xs font-mono select-all"
-                    style={{
-                      backgroundColor: "var(--bg-secondary)",
-                      borderColor: "var(--border-subtle)",
-                      color: "var(--text-primary)",
-                    }}
+                    className="flex-1 px-3 py-1.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs font-mono select-all text-[var(--text-primary)]"
                   />
-                  <button
-                    onClick={handleCopyLink}
-                    className="px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 cursor-pointer"
-                    style={{
-                      backgroundColor: "var(--accent-primary)",
-                      color: "var(--accent-text)",
-                    }}
-                  >
-                    {copied ? "Copied!" : <Copy className="w-3.5 h-3.5" />}
-                  </button>
+                  <Button size="sm" variant="primary" onClick={handleCopyLink}>
+                    {copied ? "Copied!" : <Copy className="size-3.5" />}
+                  </Button>
                 </div>
               </div>
-            ) : null}
+            )}
 
-            <div className="pt-4 flex items-center justify-center gap-4">
-              <Link
-                href={`/agreement/${createdAgreementId}`}
-                className="px-6 py-2.5 rounded-xl font-semibold text-xs flex items-center gap-2 cursor-pointer shadow-sm"
-                style={{
-                  backgroundColor: "var(--accent-primary)",
-                  color: "var(--accent-text)",
-                }}
-              >
-                <span>View Escrow Dashboard</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+            <div className="pt-2 flex items-center justify-center gap-3">
+              <Link href={`/agreement/${createdAgreementId}`}>
+                <Button size="md" variant="primary">
+                  <span>View Escrow Dashboard</span>
+                  <ExternalLink className="size-3.5" />
+                </Button>
               </Link>
             </div>
           </div>
         ) : (
-          /* Form State */
+          /* Agreement Creation Form */
           <form onSubmit={handleCreate} className="space-y-8">
-            {/* Agreement Basics */}
+            {/* Step 1: Basics */}
             <div className="space-y-4">
-              <h2 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
                 1. Agreement Details
               </h2>
-              <div>
-                <label className="block text-xs font-semibold uppercase mb-1.5" style={{ color: "var(--text-secondary)" }}>
-                  Project Title *
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Build Landing Page & Smart Contracts for Troth"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
-                  style={{
-                    backgroundColor: "var(--bg-primary)",
-                    borderColor: "var(--border-subtle)",
-                    color: "var(--text-primary)",
-                  }}
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold uppercase mb-1.5" style={{ color: "var(--text-secondary)" }}>
-                  Scope / Specification URL (Optional)
-                </label>
-                <input
-                  type="url"
-                  placeholder="https://github.com/org/repo/issues/1 or Google Doc link"
-                  value={metadataUri}
-                  onChange={(e) => setMetadataUri(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
-                  style={{
-                    backgroundColor: "var(--bg-primary)",
-                    borderColor: "var(--border-subtle)",
-                    color: "var(--text-primary)",
-                  }}
-                />
-              </div>
+              <Input
+                label="Agreement Title *"
+                required
+                placeholder="e.g. Arc Layer 1 Integration & Mini App Build"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+              <Input
+                label="Specification URL (Optional)"
+                type="url"
+                placeholder="https://github.com/my-org/project/issues/1"
+                helperText="Link to the agreed scope of work, GitHub issue, or PRD document"
+                value={metadataUri}
+                onChange={(e) => setMetadataUri(e.target.value)}
+              />
             </div>
 
-            {/* Recipient Selection */}
-            <div className="space-y-4 pt-4 border-t" style={{ borderColor: "var(--border-subtle)" }}>
+            {/* Step 2: Contractor Assignment */}
+            <div className="space-y-4 pt-6 border-t border-[var(--border-default)]">
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
-                  2. Contractor Assignment
+                <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                  2. Recipient Mode
                 </h2>
-                <div className="flex rounded-lg border p-0.5" style={{ borderColor: "var(--border-strong)" }}>
+                <div className="flex rounded-[var(--radius-input)] border border-[var(--border-default)] p-0.5 bg-[var(--bg-subtle)]">
                   <button
                     type="button"
                     onClick={() => setRecipientType("direct")}
-                    className={`px-3 py-1 rounded-md text-xs font-semibold cursor-pointer transition-colors ${
+                    className={`px-3 py-1 rounded-[6px] text-xs font-medium cursor-pointer transition-colors ${
                       recipientType === "direct"
-                        ? "bg-neutral-900 text-white dark:bg-white dark:text-black"
-                        : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+                        ? "bg-[var(--accent)] text-[var(--accent-foreground)] shadow-xs"
+                        : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                     }`}
                   >
-                    Direct Address
+                    Direct Wallet
                   </button>
                   <button
                     type="button"
                     onClick={() => setRecipientType("invite")}
-                    className={`px-3 py-1 rounded-md text-xs font-semibold cursor-pointer transition-colors ${
+                    className={`px-3 py-1 rounded-[6px] text-xs font-medium cursor-pointer transition-colors ${
                       recipientType === "invite"
-                        ? "bg-neutral-900 text-white dark:bg-white dark:text-black"
-                        : "text-neutral-500 hover:text-neutral-900 dark:hover:text-white"
+                        ? "bg-[var(--accent)] text-[var(--accent-foreground)] shadow-xs"
+                        : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                     }`}
                   >
                     Shareable Invite Link
@@ -287,80 +221,53 @@ export default function CreateAgreementPage() {
               </div>
 
               {recipientType === "direct" ? (
-                <div>
-                  <label className="block text-xs font-semibold uppercase mb-1.5" style={{ color: "var(--text-secondary)" }}>
-                    Contractor Wallet Address *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="0x..."
-                    value={contractorAddress}
-                    onChange={(e) => setContractorAddress(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border text-sm font-mono focus:outline-none focus:ring-2 focus:ring-cyan-500/50"
-                    style={{
-                      backgroundColor: "var(--bg-primary)",
-                      borderColor: "var(--border-subtle)",
-                      color: "var(--text-primary)",
-                    }}
-                  />
-                </div>
+                <Input
+                  label="Contractor Wallet Address *"
+                  required
+                  placeholder="0x..."
+                  value={contractorAddress}
+                  onChange={(e) => setContractorAddress(e.target.value)}
+                  className="font-mono text-xs"
+                />
               ) : (
-                <div
-                  className="p-4 rounded-xl border text-xs space-y-1"
-                  style={{
-                    backgroundColor: "var(--bg-tertiary)",
-                    borderColor: "var(--border-subtle)",
-                    color: "var(--text-secondary)",
-                  }}
-                >
-                  <p className="font-semibold" style={{ color: "var(--text-primary)" }}>
-                    🔗 Open Invite Link Mode
-                  </p>
+                <div className="p-3.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-subtle)] flex items-start gap-2.5 text-xs text-[var(--text-secondary)]">
+                  <Info className="size-4 text-[var(--text-primary)] shrink-0 mt-0.5" />
                   <p>
-                    A unique claim secret will be generated. You can send the resulting link to your freelancer over Telegram,
-                    Slack, or email. They will connect their wallet to lock in as the recipient.
+                    <strong className="text-[var(--text-primary)]">Invite Link Mode:</strong> You do not need the freelancer&apos;s wallet address upfront. A cryptographic claim secret will be generated for you to share privately over Telegram, Discord, or email.
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Milestones Breakdown */}
-            <div className="space-y-4 pt-4 border-t" style={{ borderColor: "var(--border-subtle)" }}>
+            {/* Step 3: Milestones */}
+            <div className="space-y-4 pt-6 border-t border-[var(--border-default)]">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
-                    3. Milestones Breakdown
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
+                    3. Milestone Breakdown
                   </h2>
-                  <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                    Divide work into discrete tranches with individual USDC releases.
+                  <p className="text-xs text-[var(--text-secondary)]">
+                    Divide total deliverables into verifiable tranches.
                   </p>
                 </div>
-                <button
+                <Button
                   type="button"
+                  variant="outline"
+                  size="sm"
                   onClick={handleAddMilestone}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg border text-xs font-semibold cursor-pointer hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-                  style={{
-                    borderColor: "var(--border-strong)",
-                    color: "var(--text-primary)",
-                  }}
                 >
-                  <Plus className="w-3.5 h-3.5" />
-                  <span>Add Milestone</span>
-                </button>
+                  <Plus className="size-3.5" />
+                  <span>Add Tranche</span>
+                </Button>
               </div>
 
               <div className="space-y-3">
                 {milestones.map((m, idx) => (
                   <div
                     key={m.id}
-                    className="p-4 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center gap-3 transition-all"
-                    style={{
-                      backgroundColor: "var(--bg-primary)",
-                      borderColor: "var(--border-subtle)",
-                    }}
+                    className="p-3.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-subtle)] flex flex-col sm:flex-row items-start sm:items-center gap-3"
                   >
-                    <span className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-800 text-xs font-bold flex items-center justify-center shrink-0">
+                    <span className="size-6 rounded-full bg-[var(--bg-surface)] border border-[var(--border-default)] text-xs font-bold font-mono flex items-center justify-center shrink-0">
                       {idx + 1}
                     </span>
 
@@ -370,17 +277,12 @@ export default function CreateAgreementPage() {
                       placeholder="Milestone Deliverable description"
                       value={m.title}
                       onChange={(e) => handleUpdateMilestone(m.id, "title", e.target.value)}
-                      className="flex-1 px-3 py-2 rounded-lg border text-xs focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                      style={{
-                        backgroundColor: "var(--bg-secondary)",
-                        borderColor: "var(--border-subtle)",
-                        color: "var(--text-primary)",
-                      }}
+                      className="flex-1 px-3 py-1.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]"
                     />
 
                     <div className="flex items-center gap-2 w-full sm:w-auto">
-                      <div className="relative w-32">
-                        <span className="absolute left-2.5 top-2 text-xs font-mono text-neutral-400">$</span>
+                      <div className="relative w-28">
+                        <span className="absolute left-2.5 top-1.5 text-xs font-mono text-[var(--text-muted)]">$</span>
                         <input
                           type="number"
                           required
@@ -389,26 +291,19 @@ export default function CreateAgreementPage() {
                           placeholder="Amount"
                           value={m.amount}
                           onChange={(e) => handleUpdateMilestone(m.id, "amount", e.target.value)}
-                          className="w-full pl-6 pr-3 py-2 rounded-lg border text-xs font-mono focus:outline-none focus:ring-1 focus:ring-cyan-500"
-                          style={{
-                            backgroundColor: "var(--bg-secondary)",
-                            borderColor: "var(--border-subtle)",
-                            color: "var(--text-primary)",
-                          }}
+                          className="w-full pl-5 pr-2 py-1.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs font-mono tabular-nums text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)]"
                         />
                       </div>
-
-                      <div className="flex items-center gap-1 text-xs font-mono text-neutral-500">
-                        <span>USDC</span>
-                      </div>
+                      <span className="text-xs font-mono text-[var(--text-muted)]">USDC</span>
 
                       {milestones.length > 1 && (
                         <button
                           type="button"
                           onClick={() => handleRemoveMilestone(m.id)}
-                          className="p-2 rounded-lg text-neutral-400 hover:text-red-500 cursor-pointer transition-colors"
+                          aria-label={`Remove milestone ${idx + 1}`}
+                          className="p-1.5 text-[var(--text-muted)] hover:text-red-500 transition-colors cursor-pointer"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="size-3.5" />
                         </button>
                       )}
                     </div>
@@ -416,79 +311,58 @@ export default function CreateAgreementPage() {
                 ))}
               </div>
 
-              {/* Total Summary */}
-              <div
-                className="p-4 rounded-xl border flex items-center justify-between font-mono"
-                style={{
-                  backgroundColor: "var(--bg-tertiary)",
-                  borderColor: "var(--border-strong)",
-                }}
-              >
-                <span className="text-xs font-bold uppercase" style={{ color: "var(--text-secondary)" }}>
-                  Total Escrow Deposit
+              {/* Total Balance Strip */}
+              <div className="p-4 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+                  Total Escrow Required
                 </span>
-                <span className="text-lg font-extrabold" style={{ color: "var(--text-primary)" }}>
-                  {totalAmount.toFixed(2)} USDC
+                <span className="text-lg font-bold font-mono text-[var(--text-primary)] tabular-nums">
+                  {formatUSDC(totalAmount)} USDC
                 </span>
               </div>
             </div>
 
-            {/* Review Window Safeguard */}
-            <div className="space-y-4 pt-4 border-t" style={{ borderColor: "var(--border-subtle)" }}>
+            {/* Step 4: Anti-Ghosting Window */}
+            <div className="space-y-3 pt-6 border-t border-[var(--border-default)]">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-base font-bold" style={{ color: "var(--text-primary)" }}>
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-[var(--text-primary)]">
                     4. Anti-Ghosting Review Window
                   </h2>
-                  <p className="text-xs" style={{ color: "var(--text-secondary)" }}>
-                    Time the client has to approve or request revisions after milestone submission.
+                  <p className="text-xs text-[var(--text-secondary)]">
+                    Review duration before contractor can trigger automated release.
                   </p>
                 </div>
                 <select
                   value={reviewWindowDays}
                   onChange={(e) => setReviewWindowDays(Number(e.target.value))}
-                  className="px-3 py-1.5 rounded-lg border text-xs font-semibold cursor-pointer"
-                  style={{
-                    backgroundColor: "var(--bg-primary)",
-                    borderColor: "var(--border-strong)",
-                    color: "var(--text-primary)",
-                  }}
+                  className="px-3 py-1.5 rounded-[var(--radius-input)] border border-[var(--border-default)] bg-[var(--bg-surface)] text-xs font-medium text-[var(--text-primary)] cursor-pointer"
                 >
-                  <option value={1}>24 Hours (Demo Speed)</option>
-                  <option value={3}>3 Days (Fiverr default)</option>
-                  <option value={7}>7 Days (Upwork standard)</option>
-                  <option value={14}>14 Days (Extended enterprise)</option>
+                  <option value={1}>24 Hours (Fast demo)</option>
+                  <option value={3}>3 Days (Fiverr standard)</option>
+                  <option value={7}>7 Days (Upwork default)</option>
+                  <option value={14}>14 Days (Extended)</option>
                 </select>
               </div>
             </div>
 
             {/* Submit Action */}
             <div className="pt-6">
-              <button
+              <Button
                 type="submit"
-                disabled={isSubmitting || totalAmount <= 0}
-                className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all hover:scale-101 disabled:opacity-50"
-                style={{
-                  backgroundColor: "var(--accent-primary)",
-                  color: "var(--accent-text)",
-                }}
+                size="lg"
+                variant="primary"
+                isLoading={isSubmitting}
+                disabled={totalAmount <= 0}
+                className="w-full"
               >
-                {isSubmitting ? (
-                  <>
-                    <Clock className="w-4 h-4 animate-spin" />
-                    <span>Confirming on Arc Mainnet...</span>
-                  </>
-                ) : (
-                  <>
-                    <ShieldCheck className="w-4 h-4" />
-                    <span>Lock {totalAmount.toFixed(2)} USDC in Escrow</span>
-                  </>
-                )}
-              </button>
+                <ShieldCheck className="size-4" />
+                <span>Deposit & Lock {formatUSDC(totalAmount)} in Escrow</span>
+              </Button>
             </div>
           </form>
         )}
-      </div>
+      </Card>
     </div>
   );
 }

@@ -4,7 +4,10 @@ import React from "react";
 import Link from "next/link";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useTheme } from "@/context/ThemeContext";
-import { ShieldCheck, Terminal, Landmark, Wallet, ExternalLink } from "lucide-react";
+import { Shield, Wallet, ArrowUpRight, Terminal, Landmark } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
+import { truncateAddress } from "@/lib/utils";
 
 export function Navbar() {
   const { theme, toggleTheme } = useTheme();
@@ -12,131 +15,97 @@ export function Navbar() {
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
 
-  const isTerminal = theme === "terminal";
-
   return (
-    <header
-      className="sticky top-0 z-50 w-full border-b backdrop-blur-md transition-colors"
-      style={{
-        backgroundColor: isTerminal ? "rgba(9, 10, 15, 0.85)" : "rgba(255, 255, 255, 0.88)",
-        borderColor: "var(--border-subtle)",
-      }}
-    >
+    <header className="sticky top-0 z-40 w-full border-b border-[var(--border-default)] bg-[var(--bg-surface)]/95 backdrop-blur-sm transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        {/* Brand */}
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div
-              className="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105"
-              style={{
-                backgroundColor: "var(--accent-primary)",
-                color: "var(--accent-text)",
-              }}
-            >
-              <ShieldCheck className="w-5 h-5" />
+        {/* Brand identity */}
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center gap-2.5 group select-none">
+            <div className="size-8 rounded-[var(--radius-input)] bg-[var(--accent)] text-[var(--accent-foreground)] flex items-center justify-center transition-transform group-hover:scale-105 shadow-xs">
+              <Shield className="size-4.5 stroke-[2.2]" />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold tracking-tight text-lg leading-tight" style={{ color: "var(--text-primary)" }}>
+              <span className="font-bold tracking-tight text-base leading-none text-[var(--text-primary)]">
                 Troth
               </span>
-              <span className="text-[10px] font-medium tracking-wider uppercase" style={{ color: "var(--text-muted)" }}>
+              <span className="text-[10px] font-mono tracking-wider text-[var(--text-muted)] uppercase mt-0.5">
                 Arc Mainnet · 350ms
               </span>
             </div>
           </Link>
 
+          {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
             <Link
               href="/"
-              className="px-3 py-1.5 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-              style={{ color: "var(--text-secondary)" }}
+              className="px-3 py-1.5 rounded-[var(--radius-input)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-subtle)] transition-colors"
             >
               Overview
             </Link>
             <Link
               href="/create"
-              className="px-3 py-1.5 rounded-md hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-              style={{ color: "var(--text-secondary)" }}
+              className="px-3 py-1.5 rounded-[var(--radius-input)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-subtle)] transition-colors"
             >
               New Escrow
             </Link>
           </nav>
         </div>
 
-        {/* Controls */}
+        {/* Action controls */}
         <div className="flex items-center gap-3">
-          {/* Dual-Theme Switcher Pill */}
+          {/* Network indicator pill */}
+          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-mono text-[var(--text-secondary)]">
+            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Arc: 5042</span>
+          </div>
+
+          {/* Theme preference toggle */}
           <button
             onClick={toggleTheme}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-semibold cursor-pointer transition-all hover:scale-102"
-            style={{
-              borderColor: "var(--border-strong)",
-              backgroundColor: "var(--bg-secondary)",
-              color: "var(--text-primary)",
-            }}
-            title="Toggle between Option A (Fintech) and Option B (Cyber Terminal)"
+            aria-label="Toggle between Fintech and Terminal theme"
+            className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--border-strong)] transition-all cursor-pointer"
           >
-            {isTerminal ? (
+            {theme === "fintech" ? (
               <>
-                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
+                <Landmark className="size-3.5 text-[var(--text-primary)]" />
                 <span className="hidden sm:inline">Theme:</span>
-                <span className="text-cyan-400 font-mono font-bold">Terminal</span>
+                <span className="text-[var(--text-primary)] font-bold">Fintech</span>
               </>
             ) : (
               <>
-                <Landmark className="w-3.5 h-3.5 text-neutral-800" />
+                <Terminal className="size-3.5 text-[var(--accent)]" />
                 <span className="hidden sm:inline">Theme:</span>
-                <span className="font-bold text-neutral-900">Fintech</span>
+                <span className="text-[var(--accent)] font-mono font-bold">Terminal</span>
               </>
             )}
           </button>
 
-          {/* Network Badge */}
-          <div
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full border text-xs font-mono"
-            style={{
-              borderColor: "var(--border-subtle)",
-              backgroundColor: "var(--bg-tertiary)",
-              color: "var(--text-secondary)",
-            }}
-          >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Arc: 5042</span>
-          </div>
-
-          {/* Connect Button */}
+          {/* Wallet connection */}
           {isConnected && address ? (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => disconnect()}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs font-mono cursor-pointer transition-colors hover:border-red-500/50"
-                style={{
-                  borderColor: "var(--border-strong)",
-                  backgroundColor: "var(--bg-secondary)",
-                  color: "var(--text-primary)",
-                }}
-              >
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>{`${address.slice(0, 6)}...${address.slice(-4)}`}</span>
-              </button>
-            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => disconnect()}
+              className="font-mono text-xs hover:border-red-400 hover:text-red-500"
+              title="Click to disconnect"
+            >
+              <span className="size-2 rounded-full bg-emerald-500 mr-1.5" />
+              <span>{truncateAddress(address)}</span>
+            </Button>
           ) : (
-            <button
+            <Button
+              variant="primary"
+              size="sm"
               onClick={() => {
                 const injectedConnector = connectors.find((c) => c.id === "injected");
                 if (injectedConnector) {
                   connect({ connector: injectedConnector });
                 }
               }}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold cursor-pointer shadow-sm transition-all hover:opacity-95"
-              style={{
-                backgroundColor: "var(--accent-primary)",
-                color: "var(--accent-text)",
-              }}
             >
-              <Wallet className="w-3.5 h-3.5" />
+              <Wallet className="size-3.5" />
               <span>Connect Wallet</span>
-            </button>
+            </Button>
           )}
         </div>
       </div>

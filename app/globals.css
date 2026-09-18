@@ -1,69 +1,110 @@
 @import "tailwindcss";
 
 :root {
-  /* Default: Option A - High-Trust Minimalist Fintech */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9f9f8;
-  --bg-tertiary: #f4f4f2;
-  --border-subtle: #e6e6e2;
-  --border-strong: #d2d2cb;
-  --text-primary: #121211;
-  --text-secondary: #63635e;
-  --text-muted: #8e8e88;
-  --accent-primary: #0f1012;
-  --accent-text: #ffffff;
-  --accent-glow: rgba(0, 0, 0, 0.05);
+  /* ==========================================================================
+     Option A: High-Trust Minimalist Fintech (Primary Default)
+     Stripe / Mercury / Linear architectural palette: crisp, calm, dense.
+     ========================================================================== */
+
+  /* Elevation ladder — base < surface < subtle < overlay */
+  --bg-base: #fafaf9;          /* clean warm canvas */
+  --bg-surface: #ffffff;       /* cards and elevated panels */
+  --bg-subtle: #f4f4f2;        /* insets, hover states, muted chips */
+  --bg-overlay: #ffffff;       /* dialogs, popovers */
+
+  /* Text tiers — exactly three */
+  --text-primary: #121211;     /* high-contrast deep charcoal */
+  --text-secondary: #575752;   /* balanced readability for descriptions */
+  --text-muted: #888882;       /* metadata, timestamps, subtle labels */
+
+  /* Border scale — two levels */
+  --border-default: #e5e5e0;   /* crisp hairline dividers */
+  --border-strong: #c8c8c0;    /* active and focused borders */
+
+  /* Accent triple — pure institutional obsidian black */
+  --accent: #0f1012;
+  --accent-subtle: #f0f0ee;
+  --accent-foreground: #ffffff;
+  --accent-rgb: 15 16 18;
+
+  /* Status scale — semantic & paired with readable text */
+  --status-pending: #b45309;
   --status-pending-bg: #fef3c7;
-  --status-pending-text: #92400e;
+  --status-submitted: #0284c7;
   --status-submitted-bg: #e0f2fe;
-  --status-submitted-text: #0369a1;
+  --status-success: #15803d;
   --status-success-bg: #dcfce7;
-  --status-success-text: #15803d;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --status-error: #b91c1c;
+  --status-error-bg: #fee2e2;
+
+  /* Radius roles */
+  --radius-input: 8px;
+  --radius-card: 12px;
+  --radius-pill: 9999px;
+
+  /* Font roles */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Geist", Inter, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Geist Mono", monospace;
 }
 
 [data-theme="terminal"] {
   /* Option B: Cyber-Terminal Dark Web3 */
-  --bg-primary: #090a0f;
-  --bg-secondary: #10121a;
-  --bg-tertiary: #171924;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --text-primary: #f3f4f6;
+  --bg-base: #08090d;
+  --bg-surface: #0f1118;
+  --bg-subtle: #161824;
+  --bg-overlay: #131520;
+
+  --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --text-muted: #64748b;
-  --accent-primary: #00f2fe;
-  --accent-text: #090a0f;
-  --accent-glow: rgba(0, 242, 254, 0.25);
+
+  --border-default: #1e2233;
+  --border-strong: #333a54;
+
+  --accent: #00f2fe;
+  --accent-subtle: rgba(0, 242, 254, 0.12);
+  --accent-foreground: #08090d;
+  --accent-rgb: 0 242 254;
+
+  --status-pending: #fbbf24;
   --status-pending-bg: rgba(245, 158, 11, 0.15);
-  --status-pending-text: #fbbf24;
+  --status-submitted: #38bdf8;
   --status-submitted-bg: rgba(56, 189, 248, 0.15);
-  --status-submitted-text: #38bdf8;
+  --status-success: #34d399;
   --status-success-bg: rgba(16, 185, 129, 0.15);
-  --status-success-text: #34d399;
+  --status-error: #f87171;
+  --status-error-bg: rgba(239, 68, 68, 0.15);
 }
 
 body {
-  background-color: var(--bg-primary);
+  background-color: var(--bg-base);
   color: var(--text-primary);
+  font-family: var(--font-sans);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
 }
 
+/* Tabular figures for financial currency accuracy */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Custom terminal scanline overlay subtle touch */
-[data-theme="terminal"] .terminal-grid {
-  background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+/* Subtle background textures */
+.fintech-surface {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
 }
 
-[data-theme="fintech"] .fintech-grid {
-  background-size: 24px 24px;
-  background-image: 
-    radial-gradient(circle, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+.fintech-surface-hover:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Button & interaction styles */
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
