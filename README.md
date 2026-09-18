@@ -89,18 +89,23 @@ Suite result: ok. 7 passed; 0 failed; 0 skipped
 
 ## Quick Start
 
-### 1. Smart Contracts
+### 1. Live Production Deployment
+The application is deployed and live on Netlify:  
+👉 **[https://trytroth.netlify.app](https://trytroth.netlify.app)**
+
+### 2. Smart Contracts (Foundry)
 ```bash
 cd contracts
 forge test
 ```
 
-### 2. Frontend Development Server
+### 3. Local Development (Optional)
+To run Troth locally from source:
 ```bash
-bun install # or npm install
-bun dev     # or npm run dev
+pnpm install # or bun install
+pnpm dev     # or bun dev
 ```
-Open [http://localhost:3000](http://localhost:3000) to view Troth.
+The local development server runs at `http://localhost:3000`.
 
 ---
 
