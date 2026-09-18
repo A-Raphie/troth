@@ -3,7 +3,23 @@
 > **Trustless, multi-milestone escrow on the Arc Layer 1 blockchain.**  
 > Sub-second settlement. Native USDC gas. Zero platform rake.
 
+[![Live App](https://img.shields.io/badge/Live%20App-trytroth.netlify.app-004ef5?style=flat-square)](https://trytroth.netlify.app)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-A--Raphie%2Ftroth-181717?style=flat-square&logo=github)](https://github.com/A-Raphie/troth)
+[![Network](https://img.shields.io/badge/Arc%20L1-5042-emerald?style=flat-square)](https://rpc.mainnet.arc.io)
+[![Foundry Tests](https://img.shields.io/badge/Foundry%20Tests-7%2F7%20Passing-success?style=flat-square)](https://github.com/A-Raphie/troth)
+
 Built for the **Arc Microgrants (Circle / DoraHacks)** — [dorahacks.io/hackathon/arc-microgrants](https://dorahacks.io/hackathon/arc-microgrants).
+
+---
+
+## 🔗 Live Deployments & Endpoints
+
+| Resource | URL |
+| :--- | :--- |
+| **Live Web App** | [https://trytroth.netlify.app](https://trytroth.netlify.app) |
+| **GitHub Repository** | [https://github.com/A-Raphie/troth](https://github.com/A-Raphie/troth) |
+| **Arc Mainnet RPC** | `https://rpc.mainnet.arc.io` (Chain ID `5042`) |
+| **Arc Testnet RPC** | `https://rpc.testnet.arc.io` (Chain ID `5042002`) |
 
 ---
 
@@ -67,7 +83,7 @@ Suite result: ok. 7 passed; 0 failed; 0 skipped
 - **Smart Contracts:** Solidity `0.8.28`, Foundry, OpenZeppelin Contracts v5
 - **Frontend:** Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS v4, Lucide Icons
 - **Web3 Connectivity:** `wagmi` v2, `viem`, `@tanstack/react-query`
-- **Hosting:** Vercel (100% client-only, zero persistent server daemons, free static-hostable)
+- **Hosting:** Netlify (100% client-rendered prebuilt static export, zero persistent server daemons, live at [trytroth.netlify.app](https://trytroth.netlify.app))
 
 ---
 
