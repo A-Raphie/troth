@@ -10,7 +10,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Troth — Trustless Milestone Escrow on Arc L1",
+  title: "Troth - Trustless Milestone Escrow on Arc L1",
   description:
     "Multi-milestone escrow with sub-second USDC release and anti-ghosting protection on Arc Mainnet.",
   keywords: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   authors: [{ name: "Troth Protocol" }],
   creator: "Troth Protocol",
   openGraph: {
-    title: "Troth — Trustless Milestone Escrow on Arc L1",
+    title: "Troth - Trustless Milestone Escrow on Arc L1",
     description:
       "Break work into verifiable milestones. Lock USDC upfront with native gas. Releases in ~350ms.",
     url: "https://trytroth.netlify.app",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Troth — Trustless Milestone Escrow on Arc L1",
+    title: "Troth - Trustless Milestone Escrow on Arc L1",
     description:
       "Sub-second milestone releases with native USDC gas on Arc Layer 1.",
   },
