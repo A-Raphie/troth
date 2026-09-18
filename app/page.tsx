@@ -32,21 +32,6 @@ export default function HomePage() {
 
   return (
     <div className="w-full min-h-[calc(100dvh-4rem)] flex flex-col">
-      {/* Network Ribbon */}
-      <div className="w-full border-b border-[var(--border-default)] bg-[var(--bg-subtle)] py-1.5 px-4 text-xs font-mono text-[var(--text-secondary)]">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-medium text-[var(--text-primary)]">Arc Mainnet (5042)</span>
-          </div>
-          <div className="flex items-center gap-4 text-[var(--text-muted)]">
-            <span>USDC Native Gas</span>
-            <span>·</span>
-            <span>0% Fee</span>
-          </div>
-        </div>
-      </div>
-
       {/* Hero */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-16 pb-10 text-center">
         <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-[var(--text-primary)] text-balance">

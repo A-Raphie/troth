@@ -14,7 +14,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[var(--border-default)] bg-[var(--bg-surface)]/95 backdrop-blur-sm">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5 group select-none">
@@ -25,13 +25,13 @@ export function Navbar() {
               <span className="font-bold tracking-tight text-base leading-none text-[var(--text-primary)]">
                 Troth
               </span>
-              <span className="text-[10px] font-mono tracking-wider text-[var(--text-muted)] uppercase mt-0.5">
-                Arc Mainnet
+              <span className="text-[10px] tracking-wider text-[var(--text-muted)] uppercase mt-0.5">
+                Milestone Escrow
               </span>
             </div>
           </Link>
 
-          {/* Desktop Nav */}
+          {/* Nav */}
           <nav className="hidden md:flex items-center gap-1 text-sm font-medium">
             <Link
               href="/"
@@ -50,10 +50,10 @@ export function Navbar() {
 
         {/* Action controls */}
         <div className="flex items-center gap-3">
-          {/* Network indicator pill */}
+          {/* Network badge (Single source of network info in the header) */}
           <div className="flex items-center gap-2 px-2.5 py-1 rounded-full border border-[var(--border-default)] bg-[var(--bg-subtle)] text-xs font-mono text-[var(--text-secondary)]">
             <span className="size-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Arc: 5042</span>
+            <span>Arc Mainnet</span>
           </div>
 
           {/* Wallet connection */}
